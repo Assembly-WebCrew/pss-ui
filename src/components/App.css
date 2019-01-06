@@ -1,0 +1,11 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+.App-content {
+  display: flex;
+  flex-grow: 1;
+  padding: 10px 20px;
+}

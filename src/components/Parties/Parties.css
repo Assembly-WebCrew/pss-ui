@@ -1,0 +1,46 @@
+ul.Party-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+ul.Party-list li {
+  width: 250px;
+  height: 100px;
+  padding: 5px;
+}
+
+ul.Party-list li a {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: transparent;
+  color: #000b19;
+  border: 1px solid #cdcdcd;
+  box-shadow: 1px 0 10px #ccc;
+  overflow: hidden;
+  position: relative;
+}
+
+ul.Party-list li a:after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  background-color: #fafafa;    
+  transform: translateY(100%);
+  transition: transform .2s ease-in-out;
+}
+
+ul.Party-list li a:hover:after {
+  transform: translateY(0);
+}
