@@ -1,24 +1,36 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch
-} from 'react-router-dom';
-import Navigation from './Navigation/Navigation';
-import NotImplemented from './NotImplemented/NotImplemented';
-import Parties from './Parties/Parties';
-import Party from './Party/Party';
+} from "react-router-dom";
+import styled from "styled-components";
+import Navigation from "./Navigation/Navigation";
+import NotImplemented from "./NotImplemented";
+import Parties from "./Party/Parties";
+import Party from "./Party/Party";
 
-import './App.css';
+const StyledApp = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+`;
+
+const AppContent = styled.div`
+  display: flex;
+  flex-grow: 1;
+  padding: 10px 20px;
+`;
 
 class App extends React.Component {
   public render() {
     return (
       <Router>
-        <div className="App">
+        <StyledApp>
           <Navigation />
-          <div className="App-content">
+          <AppContent>
             <Switch>
               <Route exact={true} path="/parties" component={Parties} />
               <Route path="/parties/import" component={NotImplemented} />
@@ -26,8 +38,8 @@ class App extends React.Component {
               <Route path="/parties/:party" component={Party} />
               <Redirect from="/" to="/parties" push={true} />
             </Switch>
-          </div>
-        </div>
+          </AppContent>
+        </StyledApp>
       </Router>
     );
   }

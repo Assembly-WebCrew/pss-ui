@@ -1,15 +1,20 @@
-import * as React from 'react';
+import * as React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators, Dispatch } from "redux";
+import styled from "styled-components";
 
-import { AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from "ag-grid-react";
 
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import './Party.css';
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import { Action, eventActions } from '../../actions';
-import { IStoreState, ITag } from '../../types';
+import { Action, eventActions } from "../../actions";
+import { IStoreState, ITag } from "../../types";
+
+const PartyGrid = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 class Party extends React.Component<any> {
   public props: any;
@@ -23,10 +28,14 @@ class Party extends React.Component<any> {
     { headerName: "Url", field: "url" },
     { headerName: "Media Url", field: "mediaUrl" },
     {
-      field: "tags", 
-      headerName: "Tags", 
-      valueFormatter (params: any) {
-        return params.value && params.value.map((tag: ITag) => tag.name).join(', ') || '';
+      field: "tags",
+      headerName: "Tags",
+      valueFormatter(params: any) {
+        return (
+          (params.value &&
+            params.value.map((tag: ITag) => tag.name).join(", ")) ||
+          ""
+        );
       }
     },
     { headerName: "Description", field: "description" }
@@ -34,15 +43,16 @@ class Party extends React.Component<any> {
 
   public render() {
     return (
-      <div className="Party-content ag-theme-balham">
+      <PartyGrid className="ag-theme-balham">
         <AgGridReact
           columnDefs={this.columnDefs}
           rowData={this.props.events}
           deltaRowDataMode={true}
           enableSorting={true}
           // tslint:disable-next-line:jsx-no-lambda
-          getRowNodeId={(data: any) => data.id} />
-      </div>
+          getRowNodeId={(data: any) => data.id}
+        />
+      </PartyGrid>
     );
   }
 }
@@ -55,4 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   actions: bindActionCreators(eventActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Party);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Party);
