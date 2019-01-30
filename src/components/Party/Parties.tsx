@@ -18,26 +18,24 @@ const PartyList = styled.ul`
 
 const PartyListItem = styled.li`
   width: 250px;
-  height: 100px;
+  height: 120px;
   padding: 5px;
 `;
 
-const StyledLink = styled(Link)`
+const PartyListContent = styled.span`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  text-decoration: none;
   text-transform: uppercase;
   font-weight: bold;
-  background-color: transparent;
-  color: #000b19;
-  border: 1px solid #cdcdcd;
+  background-color: #32a0ef;
+  border: 1px solid #1d7ec3;
   box-shadow: 1px 0 10px #ccc;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 
   &:after {
     content: "";
@@ -45,8 +43,8 @@ const StyledLink = styled(Link)`
     width: 100%;
     height: 100%;
     position: absolute;
-    z-index: -1;
-    background-color: #fafafa;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.2);
     transform: translateY(100%);
     transition: transform 0.2s ease-in-out;
   }
@@ -54,6 +52,13 @@ const StyledLink = styled(Link)`
   &:hover:after {
     transform: translateY(0);
   }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+  color: white;
 `;
 
 class Parties extends React.Component {
@@ -71,7 +76,9 @@ class Parties extends React.Component {
   public render() {
     const items = this.props.parties.map((party: Party) => (
       <PartyListItem key={party}>
-        <StyledLink to={`/parties/${party}`}>{party}</StyledLink>
+        <PartyListContent>
+          <StyledLink to={`/parties/${party}`}>{party}</StyledLink>
+        </PartyListContent>
       </PartyListItem>
     ));
     return (

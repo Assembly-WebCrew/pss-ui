@@ -12,8 +12,9 @@ const StyledNavigation = styled.div`
   width: 60px;
   height: 100%;
   background-color: #000b19;
+  background: linear-gradient(45deg, #112663, #32a0ef, #000b19);
   color: white;
-  box-shadow: 1px 0 10px #000b19;
+  box-shadow: 1px 0 10px rgba(0, 0, 0, 0.3);
 `;
 
 const StyledNavLink = styled(NavLink)`

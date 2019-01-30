@@ -1,8 +1,13 @@
+export interface ICredentials {
+  username: string;
+  password: string;
+}
+
 export interface IEvent {
   description?: string;
   endTime: number;
   id: number;
-  location: ILocation,
+  location: ILocation;
   mediaUrl?: string;
   name: string;
   originalStartTime: number;
@@ -10,7 +15,7 @@ export interface IEvent {
   startTime: number;
   tags?: ITag[];
   url?: string;
-};
+}
 
 export interface ILocation {
   description?: string;
