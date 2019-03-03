@@ -39,16 +39,13 @@ const Content = styled.span`
   }
 `;
 
-class Button extends React.Component {
-  public props: any;
-
-  public render() {
-    return (
-      <StyledButton type="button" onClick={this.props.onClick}>
-        <Content>{this.props.children}</Content>
-      </StyledButton>
-    );
-  }
-}
+const Button = (props: any) => {
+  const { type, onClick, children, ...rest } = props;
+  return (
+    <StyledButton type={type || "button"} onClick={onClick} {...rest}>
+      <Content>{children}</Content>
+    </StyledButton>
+  );
+};
 
 export default Button;

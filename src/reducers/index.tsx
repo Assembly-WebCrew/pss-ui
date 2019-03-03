@@ -1,8 +1,11 @@
-import { Action } from "../actions";
+import { Action, ActionType } from "../actions";
 import { IStoreState } from "../types/index";
 
 const initialState: IStoreState = {
   // TODO: remove dummy data
+  session: {
+    isAuthenticated: false
+  },
   events: [
     {
       description: "string",
@@ -83,6 +86,8 @@ const initialState: IStoreState = {
 
 export function actions(state: IStoreState, action: Action) {
   switch (action.type) {
+    case ActionType.LOGIN:
+      return { ...state, session: { isAuthenticated: true } };
     default:
       return state;
   }

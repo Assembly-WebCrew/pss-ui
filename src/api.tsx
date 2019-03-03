@@ -1,6 +1,6 @@
 import { ICredentials, IEvent, ILocation, ITag, Party } from "./types";
 
-// const API_URL = "";
+// const API_URL = process.env.REACT_APP_API_URL;
 
 export function getEvents(party: Party) {
   // TODO: get ${API_URL}/api/admin/event/party/${party}

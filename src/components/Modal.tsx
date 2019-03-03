@@ -9,6 +9,7 @@ const Overlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: none;
+  z-index: 20;
 
   &.show {
     display: block;
@@ -18,7 +19,9 @@ const Overlay = styled.div`
 const Popup = styled.div`
   position: fixed;
   background: white;
-  width: 80%;
+  max-width: 80%;
+  min-width: 300px;
+  min-height: 200px;
   height: auto;
   top: 50%;
   left: 50%;

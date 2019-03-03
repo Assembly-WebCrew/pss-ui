@@ -32,6 +32,7 @@ export interface ITag {
 export type Party = string;
 
 export interface IStoreState {
+  session: any;
   events: IEvent[];
   parties: Party[];
 }

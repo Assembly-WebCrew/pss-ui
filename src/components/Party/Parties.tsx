@@ -8,6 +8,7 @@ import { IStoreState } from "../../types";
 import { Party } from "../../types/index";
 import Button from "../Button";
 import Modal from "../Modal";
+import NotImplemented from "../NotImplemented";
 
 const PartyList = styled.ul`
   list-style: none;
@@ -59,6 +60,12 @@ const StyledLink = styled(Link)`
   position: relative;
   z-index: 2;
   color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 `;
 
 class Parties extends React.Component {
@@ -69,8 +76,6 @@ class Parties extends React.Component {
 
   constructor(props: any) {
     super(props);
-    this.onAddParty = this.onAddParty.bind(this);
-    this.addNewParty = this.addNewParty.bind(this);
   }
 
   public render() {
@@ -88,22 +93,22 @@ class Parties extends React.Component {
         </Button>
         <PartyList>{items}</PartyList>
         <Modal show={this.state.showModal} handleClose={this.addNewParty}>
-          <input />
+          <NotImplemented />
         </Modal>
       </div>
     );
   }
 
-  private onAddParty() {
+  private onAddParty = () => {
     this.setState({
       showModal: true
     });
-  }
-  private addNewParty() {
+  };
+  private addNewParty = () => {
     this.setState({
       showModal: false
     });
-  }
+  };
 }
 
 const mapStateToProps = (state: IStoreState) => ({
