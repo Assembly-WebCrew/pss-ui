@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { IStoreState } from "../types/index";
+import { StoreState } from "../types/index";
 import { RouteProps, Redirect, Route } from "react-router";
 
 interface IProps extends RouteProps {
@@ -26,7 +26,7 @@ class PrivateRoute extends React.Component<IProps> {
   }
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
   return {
     isAuthenticated: state.session.isAuthenticated
   };

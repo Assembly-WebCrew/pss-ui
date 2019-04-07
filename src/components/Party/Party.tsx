@@ -1,15 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
 import styled from "styled-components";
-
 import { AgGridReact } from "ag-grid-react";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import eventActions from "../../actions/event";
-import { IStoreState, ITag, Action } from "../../types";
+import { StoreState, Tag } from "../../types";
 
 const PartyGrid = styled.div`
   width: 100%;
@@ -22,9 +19,12 @@ class Party extends React.Component<any> {
   private columnDefs: object[] = [
     { headerName: "Name", field: "name" },
     { headerName: "Location", field: "location.name" },
+    { headerName: "Public", field: "isPublic" },
+    { headerName: "Prep Start Time", field: "prepStartTime" },
     { headerName: "Start Time", field: "startTime" },
     { headerName: "Original Start Time", field: "originalStartTime" },
     { headerName: "End Time", field: "endTime" },
+    { headerName: "Post End Time", field: "postEndTime" },
     { headerName: "Url", field: "url" },
     { headerName: "Media Url", field: "mediaUrl" },
     {
@@ -33,7 +33,7 @@ class Party extends React.Component<any> {
       valueFormatter(params: any) {
         return (
           (params.value &&
-            params.value.map((tag: ITag) => tag.name).join(", ")) ||
+            params.value.map((tag: Tag) => tag.name).join(", ")) ||
           ""
         );
       }
@@ -57,15 +57,8 @@ class Party extends React.Component<any> {
   }
 }
 
-const mapStateToProps = (state: IStoreState) => ({
+const mapStateToProps = (state: StoreState) => ({
   events: state.events
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  actions: bindActionCreators(eventActions, dispatch)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Party);
+export default connect(mapStateToProps)(Party);

@@ -1,22 +1,44 @@
-import { IEvent, ICredentials } from ".";
+import { Event, Session, Party } from ".";
 
 export enum ActionType {
-  ADD_EVENT = "ADD_EVENT",
-  ADD_PARTY = "ADD_PARTY",
-  EDIT_EVENT = "EDIT_EVENT",
-  GET_EVENTS = "GET_EVENTS",
-  REMOVE_EVENT = "REMOVE_EVENT",
-  LOGIN = "LOGIN"
+  ADD_EVENT,
+  ADD_PARTY,
+  EDIT_EVENT,
+  REMOVE_EVENT,
+  SET_ACTIVE_PARTY,
+  SET_EVENTS,
+  SET_PARTIES,
+  SET_SESSION
 }
 
-export interface IAddEvent {
-  payload: IEvent;
+export interface AddEvent {
+  payload: Event;
   type: ActionType.ADD_EVENT;
 }
 
-export interface ILoginEvent {
-  payload: ICredentials;
-  type: ActionType.LOGIN;
+export interface SetActiveParty {
+  payload: Party | undefined;
+  type: ActionType.SET_ACTIVE_PARTY;
 }
 
-export type Action = IAddEvent | ILoginEvent;
+export interface SetEvents {
+  payload: Array<Event>;
+  type: ActionType.SET_EVENTS;
+}
+
+export interface SetParties {
+  payload: Array<Party>;
+  type: ActionType.SET_PARTIES;
+}
+
+export interface SetSession {
+  payload: Session;
+  type: ActionType.SET_SESSION;
+}
+
+export type Action =
+  | AddEvent
+  | SetActiveParty
+  | SetEvents
+  | SetParties
+  | SetSession;

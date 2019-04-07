@@ -1,67 +1,49 @@
 export * from "./actions";
 
-export interface ICredentials {
+export interface Credentials {
   username: string;
   password: string;
 }
 
-export interface IEvent {
+export interface Session {
+  credentials?: Credentials;
+  isAuthenticated: boolean;
+}
+
+export interface Event {
   description?: string;
   endTime: number;
   id: number;
-  location: ILocation;
+  location: Location;
   mediaUrl?: string;
   name: string;
   originalStartTime: number;
   party: string;
   startTime: number;
-  tags?: ITag[];
+  tags?: Array<Tag>;
   url?: string;
+  isPublic: boolean;
+  prepStartTime?: number;
+  postEndTime?: number;
 }
 
-export interface ILocation {
+export interface Location {
   description?: string;
   id: number;
   name: string;
   url?: string;
 }
 
-export interface ITag {
+export interface Tag {
   name: string;
   id: number;
 }
 
 export type Party = string;
 
-export interface IStoreState {
-  session: any;
-  events: IEvent[];
+export interface StoreState {
+  session: Session;
+  events: Event[];
   parties: Party[];
+  activeParty?: Party;
 }
-
-/*
-Event{
-description	string
-endTime	integer($int64)
-id	integer($int32)
-isPublic	boolean
-location	Location{
-description	string
-id	integer($int32)
-name	string
-url	string
-}
-mediaUrl	string
-name	string
-originalStartTime	integer($int64)
-party	string
-postEndTime	integer($int64)
-prepStartTime	integer($int64)
-startTime	integer($int64)
-tags	[Tag{
-id	integer($int32)
-name	string
-}]
-url	string
-}
-*/

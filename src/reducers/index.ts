@@ -1,6 +1,6 @@
-import { IStoreState, Action, ActionType } from "../types";
+import { StoreState, Action, ActionType } from "../types";
 
-const initialState: IStoreState = {
+const initialState: StoreState = {
   // TODO: remove dummy data
   session: {
     isAuthenticated: false
@@ -27,6 +27,7 @@ const initialState: IStoreState = {
           name: "string"
         }
       ],
+      isPublic: true,
       url: "string"
     },
     {
@@ -50,6 +51,7 @@ const initialState: IStoreState = {
           name: "string"
         }
       ],
+      isPublic: true,
       url: "string"
     },
     {
@@ -77,21 +79,28 @@ const initialState: IStoreState = {
           name: "string 2"
         }
       ],
+      isPublic: true,
       url: "string"
     }
   ],
   parties: ["winter19", "summer19"]
 };
 
-function reducers(state: IStoreState, action: Action) {
+function reducers(state: StoreState, action: Action) {
   switch (action.type) {
-    case ActionType.LOGIN:
-      return { ...state, session: { isAuthenticated: true } };
+    case ActionType.SET_SESSION:
+      return { ...state, session: { ...action.payload } };
+    case ActionType.SET_PARTIES:
+      return { ...state, parties: action.payload };
+    case ActionType.SET_EVENTS:
+      return { ...state, events: action.payload };
+    case ActionType.SET_ACTIVE_PARTY:
+      return { ...state, activeParty: action.payload };
     default:
       return state;
   }
 }
 
-export default (state: IStoreState = initialState, action: Action) => {
+export default (state: StoreState = initialState, action: Action) => {
   return reducers(state, action);
 };

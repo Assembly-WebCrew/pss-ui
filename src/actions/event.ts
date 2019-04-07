@@ -1,14 +1,22 @@
-import { IEvent, IAddEvent, ActionType } from "../types";
+import { Event, AddEvent, ActionType } from "../types";
 
-function addEvent(payload: IEvent): IAddEvent {
+function addEvent(payload: Event): AddEvent {
   return {
     payload,
     type: ActionType.ADD_EVENT
   };
 }
 
+function setEvents(payload: Array<Event>) {
+  return {
+    payload,
+    type: ActionType.SET_EVENTS
+  };
+}
+
 const eventActions = {
-  addEvent
+  addEvent,
+  setEvents
 };
 
 export default eventActions;

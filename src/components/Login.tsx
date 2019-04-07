@@ -3,14 +3,12 @@ import { Redirect, RouteProps } from "react-router";
 import styled from "styled-components";
 import Button from "./Button";
 import Input from "./Input";
-import { IStoreState, ICredentials } from "../types";
+import { StoreState } from "../types";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import authActions from "../actions/auth";
+import { login } from "../services/api";
 
-interface IProps extends RouteProps {
+interface Props extends RouteProps {
   isAuthenticated: boolean;
-  onLogin: (credentials: ICredentials) => void;
 }
 
 const Container = styled.div`
@@ -29,7 +27,7 @@ const Form = styled.div`
   text-align: center;
 `;
 
-class Login extends React.Component<IProps> {
+class Login extends React.Component<Props> {
   public render() {
     const { from } = (this.props.location && this.props.location.state) || {
       from: { pathname: "/" }
@@ -57,25 +55,17 @@ class Login extends React.Component<IProps> {
 
   private onSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
-    this.props.onLogin({
+    login({
       username: event.currentTarget.elements.username.value,
       password: event.currentTarget.elements.password.value
     });
   };
 }
 
-const mapStateToProps = (state: IStoreState) => {
+const mapStateToProps = (state: StoreState) => {
   return {
     isAuthenticated: state.session.isAuthenticated
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onLogin: (credentials: ICredentials) => {
-    dispatch(authActions.login(credentials));
-  }
-});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps)(Login);

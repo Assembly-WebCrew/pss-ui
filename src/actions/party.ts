@@ -1,4 +1,4 @@
-import { Party, ActionType } from "../types";
+import { Party, ActionType, SetParties } from "../types";
 
 function addParty(payload: Party) {
   return {
@@ -7,16 +7,16 @@ function addParty(payload: Party) {
   };
 }
 
-function getEvents(payload: Party) {
+function setParties(payload: Array<Party>): SetParties {
   return {
     payload,
-    type: ActionType.GET_EVENTS
+    type: ActionType.SET_PARTIES
   };
 }
 
 const partyActions = {
   addParty,
-  getEvents
+  setParties
 };
 
 export default partyActions;

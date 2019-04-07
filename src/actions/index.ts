@@ -7,3 +7,5 @@ export const actions = {
   ...partyActions,
   ...authActions
 };
+
+export default actions;

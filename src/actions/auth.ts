@@ -1,14 +1,14 @@
-import { ICredentials, ActionType, ILoginEvent } from "../types";
+import { ActionType, SetSession, Session } from "../types";
 
-function login(payload: ICredentials): ILoginEvent {
+function setSession(payload: Session): SetSession {
   return {
     payload,
-    type: ActionType.LOGIN
+    type: ActionType.SET_SESSION
   };
 }
 
 const authActions = {
-  login
+  setSession
 };
 
 export default authActions;
