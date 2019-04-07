@@ -4,6 +4,7 @@ import { IStoreState } from "../types/index";
 import { RouteProps, Redirect, Route } from "react-router";
 
 interface IProps extends RouteProps {
+  component: React.ComponentType<any>;
   isAuthenticated: boolean;
 }
 

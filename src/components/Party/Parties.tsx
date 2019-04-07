@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import styled from "styled-components";
-import { Action, partyActions } from "../../actions/index";
-import { IStoreState } from "../../types";
-import { Party } from "../../types/index";
+import partyActions from "../../actions/party";
+import { IStoreState, Party, Action } from "../../types";
 import Button from "../Button";
 import Modal from "../Modal";
 import NotImplemented from "../NotImplemented";
@@ -115,7 +114,7 @@ const mapStateToProps = (state: IStoreState) => ({
   parties: state.parties
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(partyActions, dispatch)
 });
 

@@ -3,11 +3,10 @@ import { Redirect, RouteProps } from "react-router";
 import styled from "styled-components";
 import Button from "./Button";
 import Input from "./Input";
-import { IStoreState } from "src/types";
+import { IStoreState, ICredentials } from "../types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { authActions } from "src/actions";
-import { ICredentials } from "../types/index";
+import authActions from "../actions/auth";
 
 interface IProps extends RouteProps {
   isAuthenticated: boolean;
@@ -32,7 +31,9 @@ const Form = styled.div`
 
 class Login extends React.Component<IProps> {
   public render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { from } = (this.props.location && this.props.location.state) || {
+      from: { pathname: "/" }
+    };
 
     if (this.props.isAuthenticated) {
       return <Redirect to={from} />;

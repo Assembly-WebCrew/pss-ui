@@ -1,3 +1,5 @@
+export * from "./actions";
+
 export interface ICredentials {
   username: string;
   password: string;
@@ -36,3 +38,30 @@ export interface IStoreState {
   events: IEvent[];
   parties: Party[];
 }
+
+/*
+Event{
+description	string
+endTime	integer($int64)
+id	integer($int32)
+isPublic	boolean
+location	Location{
+description	string
+id	integer($int32)
+name	string
+url	string
+}
+mediaUrl	string
+name	string
+originalStartTime	integer($int64)
+party	string
+postEndTime	integer($int64)
+prepStartTime	integer($int64)
+startTime	integer($int64)
+tags	[Tag{
+id	integer($int32)
+name	string
+}]
+url	string
+}
+*/

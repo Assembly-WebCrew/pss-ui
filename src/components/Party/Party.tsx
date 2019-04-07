@@ -8,8 +8,8 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import { Action, eventActions } from "../../actions";
-import { IStoreState, ITag } from "../../types";
+import eventActions from "../../actions/event";
+import { IStoreState, ITag, Action } from "../../types";
 
 const PartyGrid = styled.div`
   width: 100%;
@@ -61,7 +61,7 @@ const mapStateToProps = (state: IStoreState) => ({
   events: state.events
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(eventActions, dispatch)
 });
 

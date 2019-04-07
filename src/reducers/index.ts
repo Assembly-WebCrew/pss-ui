@@ -1,5 +1,4 @@
-import { Action, ActionType } from "../actions";
-import { IStoreState } from "../types/index";
+import { IStoreState, Action, ActionType } from "../types";
 
 const initialState: IStoreState = {
   // TODO: remove dummy data
@@ -84,7 +83,7 @@ const initialState: IStoreState = {
   parties: ["winter19", "summer19"]
 };
 
-export function actions(state: IStoreState, action: Action) {
+function reducers(state: IStoreState, action: Action) {
   switch (action.type) {
     case ActionType.LOGIN:
       return { ...state, session: { isAuthenticated: true } };
@@ -94,5 +93,5 @@ export function actions(state: IStoreState, action: Action) {
 }
 
 export default (state: IStoreState = initialState, action: Action) => {
-  return actions(state, action);
+  return reducers(state, action);
 };
