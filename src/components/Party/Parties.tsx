@@ -5,7 +5,9 @@ import styled from "styled-components";
 import { StoreState, Party } from "../../types";
 import Button from "../Button";
 import Modal from "../Modal";
-import NotImplemented from "../NotImplemented";
+import Input from "../Input";
+import Icon from "../Icon";
+import { getParties } from "../../services/api";
 
 const PartyList = styled.ul`
   list-style: none;
@@ -75,6 +77,10 @@ class Parties extends React.Component {
     super(props);
   }
 
+  public componentDidMount() {
+    getParties();
+  }
+
   public render() {
     const items = this.props.parties.map((party: Party) => (
       <PartyListItem key={party}>
@@ -86,11 +92,22 @@ class Parties extends React.Component {
     return (
       <div>
         <Button onClick={this.onAddParty}>
-          <i className="material-icons">add</i> Add
+          <Icon>add</Icon> Add
         </Button>
         <PartyList>{items}</PartyList>
-        <Modal show={this.state.showModal} handleClose={this.addNewParty}>
-          <NotImplemented />
+        <Modal
+          show={this.state.showModal}
+          handleClose={() =>
+            this.setState({
+              showModal: false
+            })
+          }
+        >
+          <>
+            <h3>Add new party</h3>
+            <Input name="party" />
+            <Button onClick={this.addNewParty}>Add</Button>
+          </>
         </Modal>
       </div>
     );

@@ -10,7 +10,7 @@ export interface Session {
   isAuthenticated: boolean;
 }
 
-export interface Event {
+export interface PartyEvent {
   description?: string;
   endTime: number;
   id: number;
@@ -43,7 +43,6 @@ export type Party = string;
 
 export interface StoreState {
   session: Session;
-  events: Event[];
+  events: PartyEvent[] | undefined;
   parties: Party[];
-  activeParty?: Party;
 }

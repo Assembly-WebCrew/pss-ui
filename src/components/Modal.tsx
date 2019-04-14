@@ -1,42 +1,34 @@
 import * as React from "react";
 import styled from "styled-components";
+import Popup from "react-modal";
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
-  z-index: 20;
-
-  &.show {
-    display: block;
-  }
-`;
-
-const Popup = styled.div`
-  position: fixed;
-  background: white;
-  max-width: 80%;
-  min-width: 300px;
-  min-height: 200px;
-  height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const Close = styled.i`
+  float: right;
+  font-size: 34px;
+  cursor: pointer;
   padding: 10px;
-  border-radius: 34px;
-
-  .close {
-    float: right;
-    font-size: 34px;
-    cursor: pointer;
-    padding: 10px;
-    display: block;
-  }
+  display: block;
 `;
+
+const popupStyles = {
+  overlay: {
+    background: "rgba(0, 0, 0, 0.6)",
+    zIndex: "20"
+  },
+  content: {
+    position: "fixed",
+    background: "white",
+    maxWidth: "80%",
+    minWidth: "300px",
+    minHeight: "200px",
+    height: "auto",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    padding: "20px 30px",
+    borderRadius: "34px"
+  }
+};
 
 class Modal extends React.Component {
   public props: any;
@@ -45,14 +37,21 @@ class Modal extends React.Component {
     const classnames = this.props.show ? "show" : "";
 
     return (
-      <Overlay className={classnames}>
-        <Popup>
-          <i className="material-icons close" onClick={this.props.handleClose}>
-            close
-          </i>
-          {this.props.children}
-        </Popup>
-      </Overlay>
+      <Popup
+        isOpen={this.props.show}
+        onAfterOpen={this.props.afterOpenModal}
+        onRequestClose={this.props.handleClose}
+        contentLabel="Example Modal"
+        style={popupStyles}
+      >
+        <Close
+          className="material-icons close"
+          onClick={this.props.handleClose}
+        >
+          close
+        </Close>
+        {this.props.children}
+      </Popup>
     );
   }
 }

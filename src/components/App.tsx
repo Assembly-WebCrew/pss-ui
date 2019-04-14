@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Redirect,
   Route,
   Switch
@@ -12,6 +12,7 @@ import NotImplemented from "./NotImplemented";
 import Parties from "./Party/Parties";
 import Party from "./Party/Party";
 import PrivateRoute from "./PrivateRoute";
+import Modal from "react-modal";
 
 const StyledApp = styled.div`
   display: flex;
@@ -25,6 +26,8 @@ const AppContent = styled.div`
   flex-grow: 1;
   padding: 10px 20px;
 `;
+
+Modal.setAppElement("#root");
 
 class App extends React.Component {
   public render() {

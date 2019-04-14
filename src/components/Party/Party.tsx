@@ -6,51 +6,68 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import { StoreState, Tag } from "../../types";
+import { StoreState, Tag, PartyEvent } from "../../types";
+import { RouteComponentProps } from "react-router";
+import { getEvents } from "../../services/api";
+import { GridOptions, ColDef, ColGroupDef } from "ag-grid-community";
 
 const PartyGrid = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-class Party extends React.Component<any> {
-  public props: any;
+interface PartyProps extends RouteComponentProps {
+  events: Array<PartyEvent> | undefined;
+}
 
-  private columnDefs: object[] = [
-    { headerName: "Name", field: "name" },
-    { headerName: "Location", field: "location.name" },
-    { headerName: "Public", field: "isPublic" },
-    { headerName: "Prep Start Time", field: "prepStartTime" },
-    { headerName: "Start Time", field: "startTime" },
-    { headerName: "Original Start Time", field: "originalStartTime" },
-    { headerName: "End Time", field: "endTime" },
-    { headerName: "Post End Time", field: "postEndTime" },
-    { headerName: "Url", field: "url" },
-    { headerName: "Media Url", field: "mediaUrl" },
-    {
-      field: "tags",
-      headerName: "Tags",
-      valueFormatter(params: any) {
-        return (
-          (params.value &&
-            params.value.map((tag: Tag) => tag.name).join(", ")) ||
-          ""
-        );
-      }
+class Party extends React.Component<PartyProps> {
+  private gridOptions: GridOptions = {
+    defaultColDef: {
+      sortable: true,
+      resizable: true,
+      filter: true
     },
-    { headerName: "Description", field: "description" }
-  ];
+    deltaRowDataMode: true,
+    columnDefs: [
+      { headerName: "Name", field: "name" },
+      { headerName: "Location", field: "location.name" },
+      { headerName: "Public", field: "isPublic" },
+      { headerName: "Prep Start Time", field: "prepStartTime" },
+      { headerName: "Start Time", field: "startTime" },
+      { headerName: "Original Start Time", field: "originalStartTime" },
+      { headerName: "End Time", field: "endTime" },
+      { headerName: "Post End Time", field: "postEndTime" },
+      { headerName: "Url", field: "url" },
+      { headerName: "Media Url", field: "mediaUrl" },
+      {
+        field: "tags",
+        headerName: "Tags",
+        valueFormatter(params: any) {
+          return (
+            (params.value &&
+              params.value.map((tag: Tag) => tag.name).join(", ")) ||
+            ""
+          );
+        }
+      },
+      { headerName: "Description", field: "description" }
+    ],
+    getRowNodeId: (data: any) => data.id
+  };
+
+  public componentDidMount() {
+    if (this.props.match && this.props.match.params.hasOwnProperty("party")) {
+      const params: { [key: string]: string } = this.props.match.params;
+      getEvents(params.party);
+    }
+  }
 
   public render() {
     return (
       <PartyGrid className="ag-theme-balham">
         <AgGridReact
-          columnDefs={this.columnDefs}
+          gridOptions={this.gridOptions}
           rowData={this.props.events}
-          deltaRowDataMode={true}
-          enableSorting={true}
-          // tslint:disable-next-line:jsx-no-lambda
-          getRowNodeId={(data: any) => data.id}
         />
       </PartyGrid>
     );

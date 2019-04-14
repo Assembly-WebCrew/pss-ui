@@ -1,28 +1,32 @@
-import { Event, Session, Party } from ".";
+import { PartyEvent, Session, Party } from ".";
 
 export enum ActionType {
   ADD_EVENT,
   ADD_PARTY,
   EDIT_EVENT,
   REMOVE_EVENT,
-  SET_ACTIVE_PARTY,
   SET_EVENTS,
   SET_PARTIES,
   SET_SESSION
 }
 
 export interface AddEvent {
-  payload: Event;
+  payload: PartyEvent;
   type: ActionType.ADD_EVENT;
 }
 
-export interface SetActiveParty {
-  payload: Party | undefined;
-  type: ActionType.SET_ACTIVE_PARTY;
+export interface AddParty {
+  payload: Party;
+  type: ActionType.ADD_PARTY;
+}
+
+export interface EditEvent {
+  payload: PartyEvent;
+  type: ActionType.EDIT_EVENT;
 }
 
 export interface SetEvents {
-  payload: Array<Event>;
+  payload: Array<PartyEvent> | undefined;
   type: ActionType.SET_EVENTS;
 }
 
@@ -38,7 +42,8 @@ export interface SetSession {
 
 export type Action =
   | AddEvent
-  | SetActiveParty
+  | AddParty
+  | EditEvent
   | SetEvents
   | SetParties
   | SetSession;
