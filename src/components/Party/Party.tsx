@@ -6,12 +6,12 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-import { StoreState, Tag, PartyEvent } from "../../types";
+import { StoreState, Tag, PartyEvent, Party as IParty } from "../../types";
 import { RouteComponentProps } from "react-router";
 import { getEvents } from "../../services/api";
 import { GridOptions } from "ag-grid-community";
 import Button from "../Button";
-import AddEventModal from "./AddEventModal";
+import { Link } from "react-router-dom";
 
 const dateFormatter = (params: any) => {
   return params.value ? new Date(params.value).toLocaleString("fi") : "";
@@ -38,12 +38,12 @@ interface PartyProps extends RouteComponentProps {
   events: Array<PartyEvent> | undefined;
 }
 interface PartyState {
-  showModal: boolean;
+  party: IParty;
 }
 
 class Party extends React.Component<PartyProps, PartyState> {
   state: PartyState = {
-    showModal: false
+    party: ""
   };
   gridOptions: GridOptions = {
     defaultColDef: {
@@ -105,27 +105,30 @@ class Party extends React.Component<PartyProps, PartyState> {
   componentDidMount() {
     if (this.props.match && this.props.match.params.hasOwnProperty("party")) {
       const params: { [key: string]: string } = this.props.match.params;
+      this.setState({ party: params.party });
       getEvents(params.party);
     }
   }
 
-  onAddEvent = () => {
-    this.setState({
-      showModal: true
-    });
-  };
+  // onAddEvent = () => {
+  //   this.setState({
+  //     showModal: true
+  //   });
+  // };
 
-  onCloseModal = () => {
-    this.setState({
-      showModal: false
-    });
-  };
+  // onCloseModal = () => {
+  //   this.setState({
+  //     showModal: false
+  //   });
+  // };
 
   render() {
     return (
       <Container>
         <EventActions>
-          <Button onClick={this.onAddEvent}>Add event</Button>
+          <Link to={`/parties/${this.state.party}/new`}>
+            <Button>Add event</Button>
+          </Link>
         </EventActions>
         <PartyGrid className="ag-theme-balham">
           <AgGridReact
@@ -133,11 +136,6 @@ class Party extends React.Component<PartyProps, PartyState> {
             rowData={this.props.events}
           />
         </PartyGrid>
-        <AddEventModal
-          showModal={this.state.showModal}
-          onClose={this.onCloseModal}
-          onAddEvent={this.onCloseModal}
-        />
       </Container>
     );
   }

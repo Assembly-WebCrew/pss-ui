@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import Popup from "react-modal";
+import theme from "../theme";
 
 export enum ModalSize {
   Small,
@@ -8,7 +9,6 @@ export enum ModalSize {
 }
 
 const Close = styled.i`
-  float: right;
   font-size: 34px;
   cursor: pointer;
   padding: 10px;
@@ -26,12 +26,13 @@ const popupStyles = {
       background: "white",
       maxWidth: "100%",
       width: "400px",
-      height: "300px",
+      height: "250px",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      padding: "20px 30px",
-      borderRadius: "34px"
+      padding: "10px 20px",
+      borderRadius: "34px",
+      overflow: "hidden"
     }
   },
   [ModalSize.Normal]: {
@@ -49,15 +50,52 @@ const popupStyles = {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      padding: "20px 30px",
-      borderRadius: "34px"
+      padding: "10px 20px",
+      borderRadius: "34px",
+      overflow: "hidden"
     }
   }
 };
+const Header = styled.div`
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 0 10px;
+`;
+
+const Content = styled.div`
+  height: calc(100% - 60px);
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-color: ${theme.colorGrey} transparent;
+  scrollbar-width: thin;
+  padding: 10px;
+
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.colorGrey};
+    outline: 1px solid ${theme.colorGrey};
+
+    &:hover {
+      background-color: #bbb;
+    }
+  }
+`;
 
 interface ModalProps {
   show: boolean;
   handleClose: () => void;
+  title?: string;
   size?: ModalSize;
   afterOpenModal?: () => void;
 }
@@ -73,13 +111,16 @@ class Modal extends React.Component<ModalProps> {
         onRequestClose={this.props.handleClose}
         style={popupStyles[size]}
       >
-        <Close
-          className="material-icons close"
-          onClick={this.props.handleClose}
-        >
-          close
-        </Close>
-        {this.props.children}
+        <Header>
+          <h3>{this.props.title}</h3>
+          <Close
+            className="material-icons close"
+            onClick={this.props.handleClose}
+          >
+            close
+          </Close>
+        </Header>
+        <Content>{this.props.children}</Content>
       </Popup>
     );
   }

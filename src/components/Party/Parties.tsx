@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { StoreState, Party } from "../../types";
 import Button, { ButtonStyle } from "../Button";
 import Modal, { ModalSize } from "../Modal";
-import Input from "../Input";
+import Input from "../Form/Input";
 import Icon from "../Icon";
 import { getParties, addParty } from "../../services/api";
 import theme from "../../theme";
@@ -110,6 +110,7 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
         </Button>
         <PartyList>{items}</PartyList>
         <Modal
+          title="Add new party"
           show={this.state.showModal}
           handleClose={() =>
             this.setState({
@@ -118,17 +119,19 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
           }
           size={ModalSize.Small}
         >
-          <>
-            <h3>Add new party</h3>
-            <form onSubmit={this.addNewParty}>
-              <CenteredContainer>
-                <Input name="party" placeholder="Party id, ie. summer19" />
-                <StyledButton type="submit" style={ButtonStyle.Blue}>
-                  Add
-                </StyledButton>
-              </CenteredContainer>
-            </form>
-          </>
+          <form onSubmit={this.addNewParty}>
+            <CenteredContainer>
+              <Input
+                name="party"
+                placeholder="Party id, ie. summer19"
+                required
+                minLength={4}
+              />
+              <StyledButton type="submit" style={ButtonStyle.Blue}>
+                Add
+              </StyledButton>
+            </CenteredContainer>
+          </form>
         </Modal>
       </div>
     );
@@ -141,7 +144,7 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
   };
   private addNewParty = (event: React.FormEvent<any>) => {
     event.preventDefault();
-    const party = event.currentTarget.elements.party.value;
+    const party = (event.currentTarget.elements.party.value || "").trim();
     if (party) {
       addParty(party);
       this.setState({

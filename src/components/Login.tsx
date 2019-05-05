@@ -2,7 +2,7 @@ import * as React from "react";
 import { Redirect, RouteProps } from "react-router";
 import styled from "styled-components";
 import Button from "./Button";
-import Input from "./Input";
+import Input from "./Form/Input";
 import { StoreState } from "../types";
 import { connect } from "react-redux";
 import { login } from "../services/api";

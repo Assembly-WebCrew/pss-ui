@@ -13,6 +13,7 @@ import Parties from "./Party/Parties";
 import Party from "./Party/Party";
 import PrivateRoute from "./PrivateRoute";
 import Modal from "react-modal";
+import PartyEvent from "./Party/Event";
 
 const StyledApp = styled.div`
   display: flex;
@@ -40,7 +41,16 @@ class App extends React.Component {
               <PrivateRoute exact={true} path="/parties" component={Parties} />
               <PrivateRoute path="/parties/import" component={NotImplemented} />
               <PrivateRoute path="/parties/export" component={NotImplemented} />
-              <PrivateRoute path="/parties/:party" component={Party} />
+              <PrivateRoute
+                exact={true}
+                path="/parties/:party"
+                component={Party}
+              />
+              <PrivateRoute
+                exact={true}
+                path="/parties/:party/:event"
+                component={PartyEvent}
+              />
               <Route path="/login" component={Login} />
               <Redirect from="/" to="/parties" push={true} />
             </Switch>

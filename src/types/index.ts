@@ -41,7 +41,7 @@ export interface Tag {
 
 export type Party = string;
 
-export type PartyEvents = { [key: string]: PartyEvent[] | undefined };
+export type PartyEvents = { [key: string]: Array<PartyEvent> | undefined };
 
 export interface StoreState {
   session: Session;
