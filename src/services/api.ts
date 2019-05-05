@@ -27,84 +27,86 @@ export async function getEvents(party: Party) {
   try {
     setTimeout(() => {
       store.dispatch(
-        actions.setEvents([
-          {
-            description: "string",
-            endTime: 0,
-            id: 0,
-            location: {
+        actions.setEvents({
+          [party]: [
+            {
               description: "string",
+              endTime: 1556706227470,
               id: 0,
-              name: "string",
-              url: "string"
-            },
-            mediaUrl: "string",
-            name: "string",
-            originalStartTime: 0,
-            party: "string",
-            startTime: 0,
-            tags: [
-              {
+              location: {
+                description: "string",
                 id: 0,
-                name: "string"
-              }
-            ],
-            isPublic: true,
-            url: "string"
-          },
-          {
-            description: "string",
-            endTime: 0,
-            id: 1,
-            location: {
-              description: "string",
-              id: 0,
-              name: "string",
-              url: "string"
-            },
-            mediaUrl: "string",
-            name: "string",
-            originalStartTime: 0,
-            party: "string",
-            startTime: 0,
-            tags: [
-              {
-                id: 0,
-                name: "string"
-              }
-            ],
-            isPublic: true,
-            url: "string"
-          },
-          {
-            description: "string",
-            endTime: 0,
-            id: 2,
-            location: {
-              description: "string",
-              id: 0,
-              name: "string",
-              url: "string"
-            },
-            mediaUrl: "string",
-            name: "string",
-            originalStartTime: 0,
-            party: "string",
-            startTime: 0,
-            tags: [
-              {
-                id: 0,
-                name: "string"
+                name: "string",
+                url: "string"
               },
-              {
-                id: 1,
-                name: "string 2"
-              }
-            ],
-            isPublic: true,
-            url: "string"
-          }
-        ])
+              mediaUrl: "string",
+              name: "string",
+              originalStartTime: 1556706183159,
+              party: "string",
+              startTime: 1556706183159,
+              tags: [
+                {
+                  id: 0,
+                  name: "string"
+                }
+              ],
+              isPublic: true,
+              url: "string"
+            },
+            {
+              description: "string",
+              endTime: 0,
+              id: 1,
+              location: {
+                description: "string",
+                id: 0,
+                name: "string",
+                url: "string"
+              },
+              mediaUrl: "string",
+              name: "string",
+              originalStartTime: 0,
+              party: "string",
+              startTime: 0,
+              tags: [
+                {
+                  id: 0,
+                  name: "string"
+                }
+              ],
+              isPublic: true,
+              url: "string"
+            },
+            {
+              description: "string",
+              endTime: 0,
+              id: 2,
+              location: {
+                description: "string",
+                id: 0,
+                name: "string",
+                url: "string"
+              },
+              mediaUrl: "string",
+              name: "string",
+              originalStartTime: 0,
+              party: "string",
+              startTime: 0,
+              tags: [
+                {
+                  id: 0,
+                  name: "string"
+                },
+                {
+                  id: 1,
+                  name: "string 2"
+                }
+              ],
+              isPublic: true,
+              url: "string"
+            }
+          ]
+        })
       );
     }, 1000);
     // const response: AxiosResponse<Array<Events>> = await get(`/admin/event/party/${party}`);

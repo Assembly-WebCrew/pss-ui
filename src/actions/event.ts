@@ -1,4 +1,10 @@
-import { PartyEvent, AddEvent, ActionType, SetEvents } from "../types";
+import {
+  PartyEvent,
+  AddEvent,
+  ActionType,
+  SetEvents,
+  PartyEvents
+} from "../types";
 
 function addEvent(payload: PartyEvent): AddEvent {
   return {
@@ -7,7 +13,7 @@ function addEvent(payload: PartyEvent): AddEvent {
   };
 }
 
-function setEvents(payload: Array<PartyEvent> | undefined): SetEvents {
+function setEvents(payload: PartyEvents): SetEvents {
   return {
     payload,
     type: ActionType.SET_EVENTS

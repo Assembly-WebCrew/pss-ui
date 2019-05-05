@@ -1,4 +1,4 @@
-import { PartyEvent, Session, Party } from ".";
+import { PartyEvent, Session, Party, PartyEvents } from ".";
 
 export enum ActionType {
   ADD_EVENT,
@@ -26,7 +26,7 @@ export interface EditEvent {
 }
 
 export interface SetEvents {
-  payload: Array<PartyEvent> | undefined;
+  payload: PartyEvents;
   type: ActionType.SET_EVENTS;
 }
 

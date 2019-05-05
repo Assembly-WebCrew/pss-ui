@@ -9,7 +9,11 @@ import "ag-grid-community/dist/styles/ag-theme-balham.css";
 import { StoreState, Tag, PartyEvent } from "../../types";
 import { RouteComponentProps } from "react-router";
 import { getEvents } from "../../services/api";
-import { GridOptions, ColDef, ColGroupDef } from "ag-grid-community";
+import { GridOptions } from "ag-grid-community";
+
+const dateFormatter = (params: any) => {
+  return params.value ? new Date(params.value).toLocaleString() : "";
+};
 
 const PartyGrid = styled.div`
   width: 100%;
@@ -25,18 +29,39 @@ class Party extends React.Component<PartyProps> {
     defaultColDef: {
       sortable: true,
       resizable: true,
-      filter: true
+      filter: false,
+      minWidth: 50
     },
     deltaRowDataMode: true,
     columnDefs: [
-      { headerName: "Name", field: "name" },
+      { headerName: "Name", field: "name", minWidth: 100 },
       { headerName: "Location", field: "location.name" },
       { headerName: "Public", field: "isPublic" },
-      { headerName: "Prep Start Time", field: "prepStartTime" },
-      { headerName: "Start Time", field: "startTime" },
-      { headerName: "Original Start Time", field: "originalStartTime" },
-      { headerName: "End Time", field: "endTime" },
-      { headerName: "Post End Time", field: "postEndTime" },
+      {
+        headerName: "Prep Start Time",
+        field: "prepStartTime",
+        valueFormatter: dateFormatter
+      },
+      {
+        headerName: "Start Time",
+        field: "startTime",
+        valueFormatter: dateFormatter
+      },
+      {
+        headerName: "Original Start Time",
+        field: "originalStartTime",
+        valueFormatter: dateFormatter
+      },
+      {
+        headerName: "End Time",
+        field: "endTime",
+        valueFormatter: dateFormatter
+      },
+      {
+        headerName: "Post End Time",
+        field: "postEndTime",
+        valueFormatter: dateFormatter
+      },
       { headerName: "Url", field: "url" },
       { headerName: "Media Url", field: "mediaUrl" },
       {
@@ -52,17 +77,19 @@ class Party extends React.Component<PartyProps> {
       },
       { headerName: "Description", field: "description" }
     ],
+    onGridReady: (params: GridOptions) =>
+      params.api && params.api.sizeColumnsToFit(),
     getRowNodeId: (data: any) => data.id
   };
 
-  public componentDidMount() {
+  componentDidMount() {
     if (this.props.match && this.props.match.params.hasOwnProperty("party")) {
       const params: { [key: string]: string } = this.props.match.params;
       getEvents(params.party);
     }
   }
 
-  public render() {
+  render() {
     return (
       <PartyGrid className="ag-theme-balham">
         <AgGridReact
@@ -74,8 +101,16 @@ class Party extends React.Component<PartyProps> {
   }
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  events: state.events
-});
+const mapStateToProps = (state: StoreState, ownProps: PartyProps) => {
+  const params: { [key: string]: string } =
+    (ownProps.match &&
+      ownProps.match.params.hasOwnProperty("party") &&
+      ownProps.match.params) ||
+    "";
+
+  return {
+    events: state.events[params.party]
+  };
+};
 
 export default connect(mapStateToProps)(Party);

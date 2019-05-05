@@ -4,7 +4,7 @@ const initialState: StoreState = {
   session: {
     isAuthenticated: false
   },
-  events: undefined,
+  events: {},
   parties: []
 };
 
@@ -17,7 +17,7 @@ function reducers(state: StoreState, action: Action) {
     case ActionType.SET_EVENTS:
       return {
         ...state,
-        events: action.payload ? [...action.payload] : undefined
+        events: { ...state.events, ...action.payload }
       };
     default:
       return state;
