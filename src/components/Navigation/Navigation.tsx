@@ -4,13 +4,16 @@ import styled from "styled-components";
 
 import Icon from "../Icon";
 import logo from "./logo.svg";
+import Button from "../Button";
+import { StoreState } from "../../types";
+import { connect } from "react-redux";
+import { logout } from "../../services/api";
 
 const StyledNavigation = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 60px;
-  height: 100%;
+  flex-direction: row;
+  height: 60px;
+  width: 100%;
   background-color: #000b19;
   background: linear-gradient(45deg, #112663, #32a0ef, #000b19);
   color: white;
@@ -25,8 +28,9 @@ const StyledNavLink = styled(NavLink)`
     text-decoration: none;
     padding: 10px;
     text-transform: uppercase;
-    height: 60px;
-    width: 100%;
+    height: 100%;
+    width: auto;
+    min-width: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,8 +55,8 @@ const LogoLink = styled(Link)`
     text-decoration: none;
     padding: 10px;
     text-transform: uppercase;
-    height: 60px;
-    width: 100%;
+    height: 100%;
+    width: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -72,22 +76,70 @@ const LogoLink = styled(Link)`
   }
 `;
 
-class Navigation extends React.Component {
+const Text = styled.span`
+  padding-left: 10px;
+  text-transform: none;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  padding: 0 10px;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Logout = styled(Button)`
+  height: 50px;
+  color: white;
+`;
+
+interface NavigationProps {
+  isAuthenticated: boolean;
+}
+
+class Navigation extends React.Component<NavigationProps> {
+  onLogout = () => {
+    logout();
+  };
+
   public render() {
     return (
       <StyledNavigation>
         <LogoLink to="/">
           <img src={logo} className="logo" alt="logo" />
         </LogoLink>
-        <StyledNavLink exact={true} to="/parties/import" title="Import">
-          <Icon>get_app</Icon>
-        </StyledNavLink>
-        <StyledNavLink exact={true} to="/parties/export" title="Export">
-          <Icon>publish</Icon>
-        </StyledNavLink>
+        {this.props.isAuthenticated && (
+          <Container>
+            <NavContainer>
+              <StyledNavLink exact={true} to="/parties/import" title="Import">
+                <Icon>get_app</Icon>
+                <Text>Import party</Text>
+              </StyledNavLink>
+              <StyledNavLink exact={true} to="/parties/export" title="Export">
+                <Icon>publish</Icon>
+                <Text>Export party</Text>
+              </StyledNavLink>
+            </NavContainer>
+            <Logout onClick={this.onLogout}>Logout</Logout>
+          </Container>
+        )}
       </StyledNavigation>
     );
   }
 }
 
-export default Navigation;
+function mapStateToProps(state: StoreState) {
+  return {
+    isAuthenticated: state.session.isAuthenticated
+  };
+}
+
+export default connect(mapStateToProps)(Navigation);

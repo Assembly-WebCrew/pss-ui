@@ -16,7 +16,7 @@ import Modal from "react-modal";
 
 const StyledApp = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 `;

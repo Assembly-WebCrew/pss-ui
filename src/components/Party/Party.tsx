@@ -10,9 +10,11 @@ import { StoreState, Tag, PartyEvent } from "../../types";
 import { RouteComponentProps } from "react-router";
 import { getEvents } from "../../services/api";
 import { GridOptions } from "ag-grid-community";
+import Button from "../Button";
+import AddEventModal from "./AddEventModal";
 
 const dateFormatter = (params: any) => {
-  return params.value ? new Date(params.value).toLocaleString() : "";
+  return params.value ? new Date(params.value).toLocaleString("fi") : "";
 };
 
 const PartyGrid = styled.div`
@@ -20,12 +22,30 @@ const PartyGrid = styled.div`
   height: 100%;
 `;
 
+const EventActions = styled.div`
+  width: 100%;
+  height: 60px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 interface PartyProps extends RouteComponentProps {
   events: Array<PartyEvent> | undefined;
 }
+interface PartyState {
+  showModal: boolean;
+}
 
-class Party extends React.Component<PartyProps> {
-  private gridOptions: GridOptions = {
+class Party extends React.Component<PartyProps, PartyState> {
+  state: PartyState = {
+    showModal: false
+  };
+  gridOptions: GridOptions = {
     defaultColDef: {
       sortable: true,
       resizable: true,
@@ -89,14 +109,36 @@ class Party extends React.Component<PartyProps> {
     }
   }
 
+  onAddEvent = () => {
+    this.setState({
+      showModal: true
+    });
+  };
+
+  onCloseModal = () => {
+    this.setState({
+      showModal: false
+    });
+  };
+
   render() {
     return (
-      <PartyGrid className="ag-theme-balham">
-        <AgGridReact
-          gridOptions={this.gridOptions}
-          rowData={this.props.events}
+      <Container>
+        <EventActions>
+          <Button onClick={this.onAddEvent}>Add event</Button>
+        </EventActions>
+        <PartyGrid className="ag-theme-balham">
+          <AgGridReact
+            gridOptions={this.gridOptions}
+            rowData={this.props.events}
+          />
+        </PartyGrid>
+        <AddEventModal
+          showModal={this.state.showModal}
+          onClose={this.onCloseModal}
+          onAddEvent={this.onCloseModal}
         />
-      </PartyGrid>
+      </Container>
     );
   }
 }

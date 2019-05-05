@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StoreState, Party } from "../../types";
-import Button from "../Button";
-import Modal from "../Modal";
+import Button, { ButtonStyle } from "../Button";
+import Modal, { ModalSize } from "../Modal";
 import Input from "../Input";
 import Icon from "../Icon";
-import { getParties } from "../../services/api";
+import { getParties, addParty } from "../../services/api";
+import theme from "../../theme";
 
 const PartyList = styled.ul`
   list-style: none;
@@ -31,9 +32,9 @@ const PartyListContent = styled.span`
   width: 100%;
   text-transform: uppercase;
   font-weight: bold;
-  background-color: #32a0ef;
-  border: 1px solid #1d7ec3;
-  box-shadow: 1px 0 10px #ccc;
+  background-color: ${theme.colorLightBlue};
+  border: 1px solid ${theme.colorBlue};
+  box-shadow: 1px 0 10px ${theme.colorGrey};
   position: relative;
   overflow: hidden;
 
@@ -67,15 +68,28 @@ const StyledLink = styled(Link)`
   width: 100%;
 `;
 
-class Parties extends React.Component {
-  public props: any;
-  public state: any = {
+const CenteredContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+  margin-top: 20px;
+`;
+
+interface PartiesProps {
+  parties: Array<Party>;
+}
+interface PartiesState {
+  showModal: boolean;
+}
+
+class Parties extends React.Component<PartiesProps, PartiesState> {
+  public state: PartiesState = {
     showModal: false
   };
-
-  constructor(props: any) {
-    super(props);
-  }
 
   public componentDidMount() {
     getParties();
@@ -92,7 +106,7 @@ class Parties extends React.Component {
     return (
       <div>
         <Button onClick={this.onAddParty}>
-          <Icon>add</Icon> Add
+          <Icon>add</Icon> Add new party
         </Button>
         <PartyList>{items}</PartyList>
         <Modal
@@ -102,11 +116,18 @@ class Parties extends React.Component {
               showModal: false
             })
           }
+          size={ModalSize.Small}
         >
           <>
             <h3>Add new party</h3>
-            <Input name="party" />
-            <Button onClick={this.addNewParty}>Add</Button>
+            <form onSubmit={this.addNewParty}>
+              <CenteredContainer>
+                <Input name="party" placeholder="Party id, ie. summer19" />
+                <StyledButton type="submit" style={ButtonStyle.Blue}>
+                  Add
+                </StyledButton>
+              </CenteredContainer>
+            </form>
           </>
         </Modal>
       </div>
@@ -118,15 +139,20 @@ class Parties extends React.Component {
       showModal: true
     });
   };
-  private addNewParty = () => {
-    this.setState({
-      showModal: false
-    });
+  private addNewParty = (event: React.FormEvent<any>) => {
+    event.preventDefault();
+    const party = event.currentTarget.elements.party.value;
+    if (party) {
+      addParty(party);
+      this.setState({
+        showModal: false
+      });
+    }
   };
 }
 
 const mapStateToProps = (state: StoreState) => ({
-  parties: state.parties
+  parties: state.parties || []
 });
 
 export default connect(mapStateToProps)(Parties);

@@ -1,10 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
+import theme from "../theme";
 
 const StyledButton = styled.button`
   background-color: transparent;
   border-radius: 34px;
-  border: 1px solid #ccc;
+  border: 1px solid ${theme.colorGrey};
   font-size: 16px;
   text-transform: uppercase;
   font-weight: 600;
@@ -12,6 +13,12 @@ const StyledButton = styled.button`
   overflow: hidden;
   padding: 0;
   cursor: pointer;
+`;
+
+const BlueButton = styled(StyledButton)`
+  background-color: ${theme.colorLightBlue};
+  color: white;
+  border-color: ${theme.colorBlue};
 `;
 
 const Content = styled.span`
@@ -39,13 +46,33 @@ const Content = styled.span`
   }
 `;
 
-const Button = (props: any) => {
-  const { type, onClick, children, ...rest } = props;
-  return (
-    <StyledButton type={type || "button"} onClick={onClick} {...rest}>
-      <Content>{children}</Content>
-    </StyledButton>
-  );
+export enum ButtonStyle {
+  Normal,
+  Blue
+}
+
+interface ButtonProps {
+  type?: "submit" | "button";
+  onClick?: (event: any) => void;
+  style?: ButtonStyle;
+}
+
+const Button: React.FunctionComponent<ButtonProps> = props => {
+  const { type, onClick, children, style, ...rest } = props;
+  switch (style) {
+    case ButtonStyle.Blue:
+      return (
+        <BlueButton type={type || "button"} onClick={onClick} {...rest}>
+          <Content>{children}</Content>
+        </BlueButton>
+      );
+    default:
+      return (
+        <StyledButton type={type || "button"} onClick={onClick} {...rest}>
+          <Content>{children}</Content>
+        </StyledButton>
+      );
+  }
 };
 
 export default Button;

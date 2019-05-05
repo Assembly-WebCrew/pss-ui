@@ -1,7 +1,8 @@
 const theme = {
-  greyBorder: "#ccc",
-  darkBlueBorder: "#000b19",
-  blueBorder: "#32a0ef"
+  colorGrey: "#ccc",
+  colorDarkBlue: "#000b19",
+  colorBlue: "#1d7ec3",
+  colorLightBlue: "#32a0ef"
 };
 
 export default theme;

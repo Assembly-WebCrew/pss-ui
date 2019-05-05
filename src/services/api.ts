@@ -137,26 +137,32 @@ export function getTags() {
 }
 
 export function deleteEvent(id: number) {
-  // TODO: get ${API_URL}/admin/event/id/${id}
+  // TODO: delete ${API_URL}/admin/event/id/${id}
 }
 
 export function deleteTag(id: number) {
-  // TODO: get ${API_URL}/admin/tag/id/${id}
+  // TODO: delete ${API_URL}/admin/tag/id/${id}
 }
 
 export function deleteLocation(id: number) {
-  // TODO: get ${API_URL}/admin/location/id/${id}
+  // TODO: delete ${API_URL}/admin/location/id/${id}
 }
 
-export function postEvent(event: PartyEvent) {
+export function addParty(party: Party) {
+  const parties = new Set<Party>(store.getState().parties);
+  parties.add(party);
+  store.dispatch(actions.setParties(Array.from(parties)));
+}
+
+export function addEvent(event: PartyEvent) {
   // TODO: get ${API_URL}/admin/event
 }
 
-export function postTag(event: Tag) {
+export function addTag(event: Tag) {
   // TODO: get ${API_URL}/admin/tag
 }
 
-export function postLocation(event: Location) {
+export function addLocation(event: Location) {
   // TODO: get ${API_URL}/admin/location
 }
 
