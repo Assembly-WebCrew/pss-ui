@@ -4,8 +4,7 @@ import store from "../store";
 import actions from "../redux/actions";
 
 type Headers = { [key: string]: any };
-const API_URL =
-  (process.env.REACT_APP_API_URL || "http://localhost:8080") + "/api";
+const API_URL = process.env.REACT_APP_API_URL || "/api";
 
 const get = (path: string, headers: Headers = {}) => {
   const auth = store.getState().session.authorization;
