@@ -1,4 +1,4 @@
-import { Party, ActionType, SetParties, AddParty } from "../types";
+import { Party, ActionType, SetParties, AddParty } from "../../types";
 
 function addParty(payload: Party): AddParty {
   return {

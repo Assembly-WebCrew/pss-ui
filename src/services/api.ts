@@ -1,151 +1,53 @@
-import { Credentials, PartyEvent, Location, Tag, Party } from "../types";
+import {
+  Credentials,
+  PartyEvent,
+  EventLocation,
+  Tag,
+  Party,
+  NewPartyEvent
+} from "../types";
 import axios, { AxiosResponse } from "axios";
 import store from "../store";
-import actions from "../actions";
+import actions from "../redux/actions";
 
 type Headers = { [key: string]: any };
-const API_URL = process.env.REACT_APP_API_URL || "/api";
+const API_URL =
+  (process.env.REACT_APP_API_URL || "http://localhost:8080") + "/api";
 
 const get = (path: string, headers: Headers = {}) => {
-  const auth = store.getState().session.credentials;
+  const auth = store.getState().session.authorization;
   if (auth) {
-    headers.Authorization = `Basic ${auth.username}:${auth.password}`;
+    headers.Authorization = auth;
   }
   return axios({ method: "get", url: API_URL + path, headers });
 };
 
 const post = (path: string, data: any) => {
   const headers: Headers = {};
-  const auth = store.getState().session.credentials;
+  const auth = store.getState().session.authorization;
   if (auth) {
-    headers.Authorization = `Basic ${auth.username}:${auth.password}`;
+    headers.Authorization = auth;
   }
   return axios({ method: "post", url: API_URL + path, headers, data });
 };
 
-export async function getEvents(party: Party) {
-  try {
-    setTimeout(() => {
-      store.dispatch(
-        actions.setEvents({
-          [party]: [
-            {
-              description: "string",
-              endTime: 1556706227470,
-              id: 0,
-              location: {
-                description: "string",
-                id: 0,
-                name: "string",
-                url: "string"
-              },
-              mediaUrl: "string",
-              name: "string",
-              originalStartTime: 1556706183159,
-              party: "string",
-              startTime: 1556706183159,
-              tags: [
-                {
-                  id: 0,
-                  name: "string"
-                }
-              ],
-              isPublic: true,
-              url: "string"
-            },
-            {
-              description: "string",
-              endTime: 0,
-              id: 1,
-              location: {
-                description: "string",
-                id: 0,
-                name: "string",
-                url: "string"
-              },
-              mediaUrl: "string",
-              name: "string",
-              originalStartTime: 0,
-              party: "string",
-              startTime: 0,
-              tags: [
-                {
-                  id: 0,
-                  name: "string"
-                }
-              ],
-              isPublic: true,
-              url: "string"
-            },
-            {
-              description: "string",
-              endTime: 0,
-              id: 2,
-              location: {
-                description: "string",
-                id: 0,
-                name: "string",
-                url: "string"
-              },
-              mediaUrl: "string",
-              name: "string",
-              originalStartTime: 0,
-              party: "string",
-              startTime: 0,
-              tags: [
-                {
-                  id: 0,
-                  name: "string"
-                },
-                {
-                  id: 1,
-                  name: "string 2"
-                }
-              ],
-              isPublic: true,
-              url: "string"
-            }
-          ]
-        })
-      );
-    }, 1000);
-    // const response: AxiosResponse<Array<Events>> = await get(`/admin/event/party/${party}`);
-    // store.dispatch(actions.setEvents(response.data));
-    return true;
-  } catch (error) {
-    return false;
+const remove = (path: string) => {
+  const headers: Headers = {};
+  const auth = store.getState().session.authorization;
+  if (auth) {
+    headers.Authorization = auth;
   }
-}
+  return axios({ method: "delete", url: API_URL + path, headers });
+};
 
 export async function getParties() {
   try {
-    store.dispatch(actions.setParties(["winter19", "summer19"]));
-    // const response: AxiosResponse<Array<Party>> = await get("/admin/party");
-    // store.dispatch(actions.setParties(response.data));
+    const response: AxiosResponse<Array<Party>> = await get("/admin/party");
+    store.dispatch(actions.setParties(response.data));
     return true;
   } catch (error) {
     return false;
   }
-}
-
-export function getLocations() {
-  // TODO: get ${API_URL}/admin/location
-}
-
-export function getTags() {
-  // TODO: get ${API_URL}/admin/tag
-}
-
-export function deleteEvent(id: number) {
-  // TODO: delete ${API_URL}/admin/event/id/${id}
-}
-
-export function deleteTag(id: number) {
-  // TODO: delete ${API_URL}/admin/tag/id/${id}
-}
-
-export function deleteLocation(id: number) {
-  // TODO: delete ${API_URL}/admin/location/id/${id}
 }
 
 export function addParty(party: Party) {
@@ -154,25 +56,114 @@ export function addParty(party: Party) {
   store.dispatch(actions.setParties(Array.from(parties)));
 }
 
-export function addEvent(event: PartyEvent) {
-  // TODO: get ${API_URL}/admin/event
+export async function getEvents(party: Party) {
+  try {
+    const response: AxiosResponse<PartyEvent[]> = await get(
+      `/admin/event/party/${party}`
+    );
+    store.dispatch(
+      actions.setEvents({
+        [party]: response.data.sort((a, b) => a.startTime - b.startTime)
+      })
+    );
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
-export function addTag(event: Tag) {
-  // TODO: get ${API_URL}/admin/tag
+export async function addEvent(event: NewPartyEvent) {
+  try {
+    const response: AxiosResponse<PartyEvent> = await post(
+      `/admin/event`,
+      event
+    );
+    store.dispatch(actions.addEvent(response.data));
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
-export function addLocation(event: Location) {
+export async function editEvent(event: PartyEvent) {
+  try {
+    const response: AxiosResponse<PartyEvent> = await post(
+      `/admin/event`,
+      event
+    );
+    store.dispatch(actions.editEvent(response.data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function deleteEvent(event: PartyEvent) {
+  try {
+    await remove("/admin/event/id/" + event.id);
+    store.dispatch(actions.removeEvent(event));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function getTags() {
+  try {
+    const response: AxiosResponse<Array<Tag>> = await get("/admin/tag");
+    store.dispatch(actions.setTags(response.data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function addTag(tag: Tag) {
+  try {
+    const response: AxiosResponse<Tag> = await post("/admin/tag", tag);
+    store.dispatch(actions.addTag(response.data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function deleteTag(id: number) {
+  // TODO: delete ${API_URL}/admin/tag/id/${id}
+}
+
+export async function getLocations() {
+  try {
+    const response: AxiosResponse<Array<EventLocation>> = await get(
+      "/admin/location"
+    );
+    store.dispatch(actions.setLocations(response.data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function addLocation(event: EventLocation) {
   // TODO: get ${API_URL}/admin/location
+}
+
+export async function deleteLocation(id: number) {
+  // TODO: delete ${API_URL}/admin/location/id/${id}
 }
 
 export async function login(credentials: Credentials) {
   try {
-    // await get("/admin/party", { Authorization: `Basic ${credentials.username}:${credentials.password}` });
+    const authorization = `Basic ${btoa(
+      credentials.username + ":" + credentials.password
+    )}`;
+    await get("/admin/party", {
+      Authorization: authorization
+    });
     store.dispatch(
       actions.setSession({
         isAuthenticated: true,
-        credentials
+        authorization
       })
     );
     return true;

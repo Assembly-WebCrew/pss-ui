@@ -1,4 +1,4 @@
-import { ActionType, SetSession, Session } from "../types";
+import { ActionType, SetSession, Session } from "../../types";
 
 function setSession(payload: Session): SetSession {
   return {

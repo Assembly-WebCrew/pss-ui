@@ -5,19 +5,21 @@ export interface Credentials {
   password: string;
 }
 
+export type Authorization = string;
+
 export interface Session {
-  credentials?: Credentials;
+  authorization?: Authorization;
   isAuthenticated: boolean;
 }
 
-export interface PartyEvent {
+export interface NewPartyEvent {
+  id?: number;
   description?: string;
   endTime: number;
-  id: number;
-  location: Location;
+  location: EventLocation;
   mediaUrl?: string;
   name: string;
-  originalStartTime: number;
+  originalStartTime?: number;
   party: string;
   startTime: number;
   tags?: Array<Tag>;
@@ -27,7 +29,11 @@ export interface PartyEvent {
   postEndTime?: number;
 }
 
-export interface Location {
+export interface PartyEvent extends NewPartyEvent {
+  id: number;
+}
+
+export interface EventLocation {
   description?: string;
   id: number;
   name: string;
@@ -47,4 +53,6 @@ export interface StoreState {
   session: Session;
   events: PartyEvents;
   parties: Party[];
+  locations: EventLocation[];
+  tags: Tag[];
 }
