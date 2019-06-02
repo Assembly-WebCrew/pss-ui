@@ -32,6 +32,19 @@ function reducers(state: StoreState, action: Action) {
           ].sort((a, b) => a.startTime - b.startTime)
         }
       };
+    case ActionType.EDIT_EVENT:
+      const events = state.events[action.payload.party]!.filter(
+        event => event.id !== action.payload.id
+      );
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [action.payload.party]: [...events, action.payload].sort(
+            (a, b) => a.startTime - b.startTime
+          )
+        }
+      };
     case ActionType.REMOVE_EVENT:
       return {
         ...state,

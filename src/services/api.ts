@@ -1,11 +1,4 @@
-import {
-  Credentials,
-  PartyEvent,
-  EventLocation,
-  Tag,
-  Party,
-  NewPartyEvent
-} from "../types";
+import { Credentials, PartyEvent, EventLocation, Tag, Party } from "../types";
 import axios, { AxiosResponse } from "axios";
 import store from "../store";
 import actions from "../redux/actions";
@@ -72,7 +65,7 @@ export async function getEvents(party: Party) {
   }
 }
 
-export async function addEvent(event: NewPartyEvent) {
+export async function addEvent(event: PartyEvent) {
   try {
     const response: AxiosResponse<PartyEvent> = await post(
       `/admin/event`,

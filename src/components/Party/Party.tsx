@@ -17,6 +17,14 @@ const dateFormatter = (params: any) => {
   return params.value ? new Date(params.value).toLocaleString("fi") : "";
 };
 
+const actions = (params: any) => {
+  return (
+    <Link to={`/parties/${params.data.party}/${params.data.id}`}>
+      Edit event
+    </Link>
+  );
+};
+
 const PartyGrid = styled.div`
   width: 100%;
   height: 100%;
@@ -46,6 +54,7 @@ class Party extends React.Component<PartyProps, PartyState> {
     party: ""
   };
   gridOptions: GridOptions = {
+    reactNext: true,
     defaultColDef: {
       sortable: true,
       resizable: true,
@@ -95,11 +104,19 @@ class Party extends React.Component<PartyProps, PartyState> {
           );
         }
       },
-      { headerName: "Description", field: "description" }
+      { headerName: "Description", field: "description" },
+      {
+        headerName: "Actions",
+        field: "actions",
+        cellRenderer: "actionsRenderer"
+      }
     ],
     onGridReady: (params: GridOptions) =>
       params.api && params.api.sizeColumnsToFit(),
-    getRowNodeId: (data: any) => data.id
+    getRowNodeId: (data: any) => data.id,
+    frameworkComponents: {
+      actionsRenderer: actions
+    }
   };
 
   componentDidMount() {
@@ -109,18 +126,6 @@ class Party extends React.Component<PartyProps, PartyState> {
       getEvents(params.party);
     }
   }
-
-  // onAddEvent = () => {
-  //   this.setState({
-  //     showModal: true
-  //   });
-  // };
-
-  // onCloseModal = () => {
-  //   this.setState({
-  //     showModal: false
-  //   });
-  // };
 
   render() {
     return (

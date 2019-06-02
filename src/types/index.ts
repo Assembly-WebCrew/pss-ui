@@ -12,8 +12,8 @@ export interface Session {
   isAuthenticated: boolean;
 }
 
-export interface NewPartyEvent {
-  id?: number;
+export interface PartyEvent {
+  id: number;
   description?: string;
   endTime: number;
   location: EventLocation;
@@ -27,10 +27,6 @@ export interface NewPartyEvent {
   isPublic: boolean;
   prepStartTime?: number;
   postEndTime?: number;
-}
-
-export interface PartyEvent extends NewPartyEvent {
-  id: number;
 }
 
 export interface EventLocation {

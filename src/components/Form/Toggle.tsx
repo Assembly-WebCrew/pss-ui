@@ -50,13 +50,17 @@ const Checkbox = styled.input`
 
 interface ToggleProps {
   selected?: boolean;
-  name?: string;
+  name: string;
 }
 
 const Toggle: React.FunctionComponent<ToggleProps> = props => {
   return (
     <Switch>
-      <Checkbox type="checkbox" name={props.name} checked={props.selected} />
+      <Checkbox
+        type="checkbox"
+        name={props.name}
+        defaultChecked={props.selected}
+      />
       <Slider />
     </Switch>
   );
