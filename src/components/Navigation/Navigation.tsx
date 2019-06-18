@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Route } from "react-router-dom";
 import styled from "styled-components";
 
 import Icon from "../Icon";
@@ -101,8 +101,24 @@ const Logout = styled(Button)`
   color: white;
 `;
 
+const PartyNavigationItems = () => (
+  <>
+    <StyledNavLink exact={true} to="/parties/import" title="Import">
+      <Icon>get_app</Icon>
+      <Text>Import party</Text>
+    </StyledNavLink>
+    <StyledNavLink exact={true} to="/parties/export" title="Export">
+      <Icon>publish</Icon>
+      <Text>Export party</Text>
+    </StyledNavLink>
+  </>
+);
+
 interface NavigationProps {
   isAuthenticated: boolean;
+}
+interface RouteProps {
+  match: boolean;
 }
 
 class Navigation extends React.Component<NavigationProps> {
@@ -119,14 +135,13 @@ class Navigation extends React.Component<NavigationProps> {
         {this.props.isAuthenticated && (
           <Container>
             <NavContainer>
-              <StyledNavLink exact={true} to="/parties/import" title="Import">
-                <Icon>get_app</Icon>
-                <Text>Import party</Text>
-              </StyledNavLink>
-              <StyledNavLink exact={true} to="/parties/export" title="Export">
-                <Icon>publish</Icon>
-                <Text>Export party</Text>
-              </StyledNavLink>
+              <Route
+                exact={true}
+                path="/parties"
+                children={({ match }: RouteProps) => (
+                  <>{match && <PartyNavigationItems />}</>
+                )}
+              />
             </NavContainer>
             <Logout onClick={this.onLogout}>Logout</Logout>
           </Container>
