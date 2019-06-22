@@ -6,9 +6,15 @@ import Input from "./Form/Input";
 import { StoreState } from "../types";
 import { connect } from "react-redux";
 import { login } from "../services/api";
+import { Loading } from "./Loading";
 
 interface Props extends RouteProps {
   isAuthenticated: boolean;
+}
+
+interface State {
+  error: boolean;
+  loading: boolean;
 }
 
 const Container = styled.div`
@@ -26,8 +32,25 @@ const Form = styled.div`
   padding: 1em;
   text-align: center;
 `;
+const Error = styled.p`
+  color: red;
+  font-size: 0.9em;
+  text-align: center;
+`;
+const LoginButton = styled(Button)`
+  width: 90px;
+  height: 40px;
+  overflow: hidden;
+  vertical-align: middle;
+  line-height: 40px;
 
-class Login extends React.Component<Props> {
+  span {
+    padding: 0;
+  }
+`;
+
+class Login extends React.Component<Props, State> {
+  state = { error: false, loading: false };
   public render() {
     const { from } = (this.props.location && this.props.location.state) || {
       from: { pathname: "/" }
@@ -42,10 +65,29 @@ class Login extends React.Component<Props> {
         <Form>
           <p>Login to Party Schedule Service</p>
           <form onSubmit={this.onSubmit}>
-            <Input type="text" placeholder="Username" name="username" />
-            <Input type="password" placeholder="Password" name="password" />
+            <Input
+              type="text"
+              placeholder="Username"
+              name="username"
+              required
+              disabled={this.state.loading}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+              disabled={this.state.loading}
+            />
+            {this.state.error && (
+              <Error>
+                An error occurred. Check your username and password.
+              </Error>
+            )}
             <p>
-              <Button type="submit">Log in</Button>
+              <LoginButton type="submit" disabled={this.state.loading}>
+                {this.state.loading ? <Loading /> : "Log in"}
+              </LoginButton>
             </p>
           </form>
         </Form>
@@ -55,9 +97,14 @@ class Login extends React.Component<Props> {
 
   private onSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
+    this.setState({ loading: true });
     login({
       username: event.currentTarget.elements.username.value,
       password: event.currentTarget.elements.password.value
+    }).then(success => {
+      if (!success) {
+        this.setState({ error: true, loading: false });
+      }
     });
   };
 }

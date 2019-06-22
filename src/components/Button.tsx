@@ -15,7 +15,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   transition: background-color 0.2s ease;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
@@ -47,6 +47,7 @@ interface ButtonProps {
   type?: "submit" | "button";
   onClick?: (event: any) => void;
   style?: ButtonStyle;
+  disabled?: boolean;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = props => {

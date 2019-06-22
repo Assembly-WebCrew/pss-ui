@@ -11,6 +11,10 @@ const Input = styled.input`
   &:focus {
     border-color: ${theme.colorLightBlue};
   }
+
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export default Input;
