@@ -52,10 +52,6 @@ export class DatePicker extends React.Component<ICellEditorParams, State> {
     }
   }
 
-  onPickerFocus = (evt: any) => {
-    console.log(evt);
-  };
-
   render() {
     return (
       <StyledDatePicker ref={ref => (this.datePicker = ref)}>

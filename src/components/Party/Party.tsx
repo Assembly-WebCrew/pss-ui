@@ -50,12 +50,15 @@ class Party extends React.Component<PartyProps, PartyState> {
     }
   }
 
-  onUpdateEvent = (event: RowValueChangedEvent) => {
-    // if (event.data) {
-    //   editEvent({
-    //     ...event.data
-    //   });
-    // }
+  onUpdateEvent = async (event: RowValueChangedEvent) => {
+    if (event.data) {
+      const success = await editEvent({
+        ...event.data
+      });
+      if (!success) {
+        // TODO: error handling
+      }
+    }
   };
 
   render() {

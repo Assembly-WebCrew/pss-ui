@@ -25,8 +25,25 @@ const BlueButton = styled(StyledButton)`
   color: white;
   border-color: ${theme.colorBlue};
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${theme.colorBlue};
+  }
+`;
+
+const LinkButton = styled(StyledButton)`
+  background-color: transparent;
+  color: ${theme.colorBlue};
+  text-transform: none;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  font-weight: normal;
+  font-size: 13px;
+  text-decoration: underline;
+
+  &:not(:disabled):hover {
+    background-color: transparent;
+    color: ${theme.colorDarkBlue};
   }
 `;
 
@@ -40,7 +57,8 @@ const Content = styled.span`
 
 export enum ButtonStyle {
   Normal,
-  Blue
+  Blue,
+  Link
 }
 
 interface ButtonProps {
@@ -58,6 +76,12 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
         <BlueButton type={type || "button"} onClick={onClick} {...rest}>
           <Content>{children}</Content>
         </BlueButton>
+      );
+    case ButtonStyle.Link:
+      return (
+        <LinkButton type={type || "button"} onClick={onClick} {...rest}>
+          <Content>{children}</Content>
+        </LinkButton>
       );
     default:
       return (

@@ -13,6 +13,24 @@ const Grid = styled.div`
   & .ag-cell.ag-cell-inline-editing {
     overflow: visible;
   }
+
+  div.ag-cell-edit-input {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    line-height: normal;
+    position: relative;
+  }
+  select.ag-cell-edit-input {
+    background: transparent;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: inherit;
+    font-size: inherit;
+    height: 40px !important;
+    padding-bottom: 8px;
+    border-width: 0;
+    border-bottom: 2px solid #e2e2e2;
+  }
 `;
 
 class BasicGrid extends React.Component<GridProps> {
@@ -30,7 +48,15 @@ class BasicGrid extends React.Component<GridProps> {
     columnDefs: [
       { headerName: "Name", field: "name", minWidth: 100 },
       { headerName: "Location", field: "location.name" },
-      { headerName: "Public", field: "isPublic", maxWidth: 100 },
+      {
+        headerName: "Public",
+        field: "isPublic",
+        maxWidth: 100,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: {
+          values: [true, false]
+        }
+      },
       {
         headerName: "Prep Start Time",
         field: "prepStartTime",
@@ -73,7 +99,7 @@ class BasicGrid extends React.Component<GridProps> {
         headerName: "Actions",
         field: "actions",
         cellRenderer: "actionsRenderer",
-        editable: false
+        cellEditor: "actionsRenderer"
       }
     ],
     onGridReady: (params: GridOptions) =>
