@@ -2,6 +2,14 @@ import * as React from "react";
 import styled from "styled-components";
 import theme from "../theme";
 
+const Content = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 15px;
+`;
+
 const StyledButton = styled.button`
   background-color: transparent;
   border-radius: 34px;
@@ -36,7 +44,6 @@ const LinkButton = styled(StyledButton)`
   text-transform: none;
   border: 0;
   border-radius: 0;
-  outline: 0;
   font-weight: normal;
   font-size: 13px;
   text-decoration: underline;
@@ -45,14 +52,14 @@ const LinkButton = styled(StyledButton)`
     background-color: transparent;
     color: ${theme.colorDarkBlue};
   }
-`;
 
-const Content = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  padding: 10px 15px;
+  ${Content} {
+    padding: 5px;
+  }
+
+  &:focus {
+    color: red;
+  }
 `;
 
 export enum ButtonStyle {
@@ -66,30 +73,55 @@ interface ButtonProps {
   onClick?: (event: any) => void;
   style?: ButtonStyle;
   disabled?: boolean;
+  ref?: Ref;
 }
 
-const Button: React.FunctionComponent<ButtonProps> = props => {
-  const { type, onClick, children, style, ...rest } = props;
-  switch (style) {
-    case ButtonStyle.Blue:
-      return (
-        <BlueButton type={type || "button"} onClick={onClick} {...rest}>
-          <Content>{children}</Content>
-        </BlueButton>
-      );
-    case ButtonStyle.Link:
-      return (
-        <LinkButton type={type || "button"} onClick={onClick} {...rest}>
-          <Content>{children}</Content>
-        </LinkButton>
-      );
-    default:
-      return (
-        <StyledButton type={type || "button"} onClick={onClick} {...rest}>
-          <Content>{children}</Content>
-        </StyledButton>
-      );
+type Ref =
+  | ((instance: HTMLButtonElement | null) => void)
+  | React.RefObject<HTMLButtonElement>
+  | null
+  | undefined;
+type Props = React.PropsWithChildren<ButtonProps>;
+
+const Button: React.FunctionComponent<ButtonProps> = React.forwardRef(
+  (props: Props, ref: Ref) => {
+    const { type, onClick, children, style, ...rest } = props;
+    switch (style) {
+      case ButtonStyle.Blue:
+        return (
+          <BlueButton
+            type={type || "button"}
+            onClick={onClick}
+            ref={ref}
+            {...rest}
+          >
+            <Content>{children}</Content>
+          </BlueButton>
+        );
+      case ButtonStyle.Link:
+        return (
+          <LinkButton
+            type={type || "button"}
+            onClick={onClick}
+            ref={ref}
+            {...rest}
+          >
+            <Content>{children}</Content>
+          </LinkButton>
+        );
+      default:
+        return (
+          <StyledButton
+            type={type || "button"}
+            onClick={onClick}
+            ref={ref}
+            {...rest}
+          >
+            <Content>{children}</Content>
+          </StyledButton>
+        );
+    }
   }
-};
+);
 
 export default Button;

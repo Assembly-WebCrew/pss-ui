@@ -1,22 +1,38 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import Button, { ButtonStyle } from "../../../Button";
 
 export class Actions extends React.Component<any> {
+  ref?: React.RefObject<HTMLButtonElement>;
+
   getValue() {
     return "";
   }
 
+  focusIn() {
+    if (this.ref && this.ref.current) {
+      this.ref.current.focus();
+    }
+  }
+
   render() {
-    console.log(this.props);
-    if (this.props.stopEditing) {
+    if (this.props.cellStartedEdit !== undefined) {
+      this.ref = React.createRef();
       return (
-        <Button
-          style={ButtonStyle.Link}
-          onClick={() => this.props.api.stopEditing(true)}
-        >
-          Cancel
-        </Button>
+        <>
+          <Button
+            ref={this.ref}
+            style={ButtonStyle.Link}
+            onClick={() => this.props.api.stopEditing()}
+          >
+            Save
+          </Button>
+          <Button
+            style={ButtonStyle.Link}
+            onClick={() => this.props.api.stopEditing(true)}
+          >
+            Cancel
+          </Button>
+        </>
       );
     } else {
       return (
