@@ -7,7 +7,7 @@ import logo from "./logo.svg";
 import Button from "../Button";
 import { StoreState } from "../../types";
 import { connect } from "react-redux";
-import { logout } from "../../services/api";
+import { logout } from "../../services/SessionService";
 
 const StyledNavigation = styled.div`
   display: flex;

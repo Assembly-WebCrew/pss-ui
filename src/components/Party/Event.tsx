@@ -8,7 +8,9 @@ import Textarea from "../Form/Textarea";
 import { PartyEvent, Party, EventLocation, StoreState } from "../../types";
 import { RouteComponentProps } from "react-router";
 import store from "../../store";
-import { addEvent, editEvent, getLocations, getTags } from "../../services/api";
+import { addEvent, editEvent } from "../../services/EventService";
+import { getLocations } from "../../services/LocationService";
+import { getTags } from "../../services/TagService";
 import Select from "../Form/Select";
 import { connect } from "react-redux";
 
