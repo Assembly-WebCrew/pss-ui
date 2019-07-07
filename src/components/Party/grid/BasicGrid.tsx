@@ -3,7 +3,12 @@ import { AgGridReact } from "ag-grid-react";
 import { GridOptions } from "ag-grid-community";
 import { DatePicker } from "./components/DatePicker";
 import { Actions } from "./components/Actions";
-import { dateFormatter, tagFormatter, GridProps } from "./utils";
+import {
+  dateFormatter,
+  tagFormatter,
+  GridProps,
+  eventLocationFormatter
+} from "./utils";
 import styled from "styled-components";
 import Tags from "./components/Tags";
 import EventLocation from "./components/EventLocation";
@@ -14,6 +19,13 @@ const Grid = styled.div`
 
   & .ag-cell.ag-cell-inline-editing {
     overflow: visible;
+  }
+
+  div.ag-react-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
   }
 
   div.ag-cell-edit-input {
@@ -51,8 +63,12 @@ class BasicGrid extends React.Component<GridProps> {
       { headerName: "Name", field: "name", minWidth: 100 },
       {
         headerName: "Location",
-        field: "location.name",
-        cellEditor: "eventLocationEditor"
+        field: "location",
+        valueFormatter: eventLocationFormatter,
+        cellEditor: "eventLocationEditor",
+        cellEditorParams: {
+          values: () => this.props.locations
+        }
       },
       {
         headerName: "Public",
@@ -99,7 +115,10 @@ class BasicGrid extends React.Component<GridProps> {
         field: "tags",
         headerName: "Tags",
         valueFormatter: tagFormatter,
-        cellEditor: "tagsEditor"
+        cellEditor: "tagsEditor",
+        cellEditorParams: {
+          values: () => this.props.tags
+        }
       },
       { headerName: "Description", field: "description" },
       {

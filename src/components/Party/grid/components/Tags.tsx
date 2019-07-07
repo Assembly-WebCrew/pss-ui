@@ -2,42 +2,55 @@ import React from "react";
 import Select from "../../../Form/Select";
 import { ICellEditorParams } from "ag-grid-community";
 import { Tag } from "../../../../types";
+import { ActionMeta, InputActionMeta } from "react-select/src/types";
+
+type Value = Tag & { label?: string; value?: any };
 
 interface State {
-  value: Array<Tag>;
+  value: Array<Value>;
 }
 
-export default class Tags extends React.Component<ICellEditorParams, State> {
-  constructor(props: ICellEditorParams) {
+interface Props extends ICellEditorParams {
+  values: () => Array<Tag>;
+}
+
+export default class Tags extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { value: props.value };
   }
 
   getValue() {
-    return this.state.value;
+    return this.state.value.map((v: Value) => ({
+      id: v.id,
+      name: v.label || v.name
+    }));
   }
 
-  handleChange = (newValue: any, actionMeta: any) => {
+  handleChange = (newValue: any, actionMeta: ActionMeta) => {
     console.group("Value Changed");
     console.log(newValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
+    this.setState({ value: newValue });
   };
-  handleInputChange = (inputValue: any, actionMeta: any) => {
+
+  handleInputChange = (inputValue: any, actionMeta: InputActionMeta) => {
     console.group("Input Changed");
     console.log(inputValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
   };
+
   render() {
     return (
       <Select
-        isMulti={false}
+        isMulti={true}
         onChange={this.handleChange}
-        // onInputChange={this.handleInputChange}
+        onInputChange={this.handleInputChange}
         value={this.state.value}
         name="tags"
-        options={[]}
+        options={this.props.values ? this.props.values() : []}
       />
     );
   }
