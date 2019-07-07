@@ -5,17 +5,29 @@ import { InputActionMeta, ActionMeta } from "react-select/src/types";
 const customStyles = {
   option: (provided: any, state: any) => ({
     ...provided,
-    padding: "0 10px"
+    padding: "5px 10px",
+    lineHeight: "26px",
+    backgroundColor: state.isFocused ? "#2684FF" : "#FFF",
+    color: state.isFocused ? "#FFF" : "#000"
   }),
   menu: (provided: any, state: any) => ({
     ...provided,
-    top: 48,
+    position: "absolute" as const,
+    top: 40,
     left: 0,
-    borderRadius: 0
+    borderRadius: 0,
+    margin: 1,
+    paddingTop: 0,
+    paddingBottom: 0
+  }),
+  menuList: () => ({
+    padding: 0,
+    border: "1px solid #2684FF"
   }),
   container: () => ({
     height: 40,
-    width: "100%"
+    width: "100%",
+    position: "relative" as const
   }),
   control: () => ({
     display: "flex",
