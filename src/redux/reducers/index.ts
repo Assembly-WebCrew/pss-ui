@@ -1,9 +1,18 @@
 import { StoreState, Action, ActionType } from "../../types";
 
+const initialSession = () => {
+  if (process.env.NODE_ENV === "production") {
+    return { isAuthenticated: false };
+  } else {
+    return {
+      isAuthenticated: typeof localStorage.getItem('Authorization') === 'string',
+      authorization: localStorage.getItem('Authorization') || undefined
+    };
+  }
+}
+
 const initialState: StoreState = {
-  session: {
-    isAuthenticated: false
-  },
+  session: initialSession(),
   events: {},
   parties: [],
   locations: [],
