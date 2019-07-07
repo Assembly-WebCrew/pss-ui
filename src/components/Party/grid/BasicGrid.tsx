@@ -5,6 +5,8 @@ import { DatePicker } from "./components/DatePicker";
 import { Actions } from "./components/Actions";
 import { dateFormatter, tagFormatter, GridProps } from "./utils";
 import styled from "styled-components";
+import Tags from "./components/Tags";
+import EventLocation from "./components/EventLocation";
 
 const Grid = styled.div`
   width: 100%;
@@ -47,7 +49,11 @@ class BasicGrid extends React.Component<GridProps> {
     deltaRowDataMode: true,
     columnDefs: [
       { headerName: "Name", field: "name", minWidth: 100 },
-      { headerName: "Location", field: "location.name" },
+      {
+        headerName: "Location",
+        field: "location.name",
+        cellEditor: "eventLocationEditor"
+      },
       {
         headerName: "Public",
         field: "isPublic",
@@ -92,7 +98,8 @@ class BasicGrid extends React.Component<GridProps> {
       {
         field: "tags",
         headerName: "Tags",
-        valueFormatter: tagFormatter
+        valueFormatter: tagFormatter,
+        cellEditor: "tagsEditor"
       },
       { headerName: "Description", field: "description" },
       {
@@ -107,7 +114,9 @@ class BasicGrid extends React.Component<GridProps> {
     getRowNodeId: (data: any) => data.id,
     frameworkComponents: {
       actionsRenderer: Actions,
-      datePicker: DatePicker
+      datePicker: DatePicker,
+      tagsEditor: Tags,
+      eventLocationEditor: EventLocation
     }
   };
 

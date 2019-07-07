@@ -7,7 +7,12 @@ import "ag-grid-community/dist/styles/ag-theme-material.css";
 
 import { StoreState, PartyEvent, Party as IParty } from "../../types";
 import { RouteComponentProps } from "react-router";
-import { getEvents, editEvent } from "../../services/api";
+import {
+  getEvents,
+  editEvent,
+  getTags,
+  getLocations
+} from "../../services/api";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 import BasicGrid from "./grid/BasicGrid";
@@ -48,6 +53,8 @@ class Party extends React.Component<PartyProps, PartyState> {
       this.setState({ party: params.party });
       getEvents(params.party);
     }
+    getTags();
+    getLocations();
   }
 
   onUpdateEvent = async (event: RowValueChangedEvent) => {

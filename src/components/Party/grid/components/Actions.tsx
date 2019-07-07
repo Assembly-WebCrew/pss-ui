@@ -1,7 +1,8 @@
 import * as React from "react";
 import Button, { ButtonStyle } from "../../../Button";
+import { ICellEditorParams } from "ag-grid-community";
 
-export class Actions extends React.Component<any> {
+export class Actions extends React.Component<ICellEditorParams> {
   ref?: React.RefObject<HTMLButtonElement>;
 
   getValue() {
@@ -15,6 +16,8 @@ export class Actions extends React.Component<any> {
   }
 
   render() {
+    const { api } = this.props;
+    if (!api) return "";
     if (this.props.cellStartedEdit !== undefined) {
       this.ref = React.createRef();
       return (
@@ -22,13 +25,13 @@ export class Actions extends React.Component<any> {
           <Button
             ref={this.ref}
             style={ButtonStyle.Link}
-            onClick={() => this.props.api.stopEditing()}
+            onClick={() => api.stopEditing()}
           >
             Save
           </Button>
           <Button
             style={ButtonStyle.Link}
-            onClick={() => this.props.api.stopEditing(true)}
+            onClick={() => api.stopEditing(true)}
           >
             Cancel
           </Button>
@@ -42,12 +45,9 @@ export class Actions extends React.Component<any> {
         <Button
           style={ButtonStyle.Link}
           onClick={() =>
-            this.props.api.startEditingCell({
+            api.startEditingCell({
               rowIndex: this.props.rowIndex,
-              colKey: "name",
-              rowPinned: false,
-              keyPress: null,
-              charPress: null
+              colKey: "name"
             })
           }
         >

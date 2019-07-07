@@ -158,6 +158,8 @@ export async function login(credentials: Credentials) {
         authorization
       })
     );
+    getTags();
+    getLocations();
     return true;
   } catch (error) {
     return false;

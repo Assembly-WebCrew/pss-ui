@@ -1,5 +1,5 @@
 import React from "react";
-import { Creatable } from "react-select";
+import Creatable from "react-select/creatable";
 
 interface SelectAction {
   action:
@@ -29,6 +29,7 @@ const toOption = (data: any) => ({
 const Select: React.FunctionComponent<SelectProps> = props => {
   return (
     <Creatable
+      isClearable
       isMulti={props.isMulti}
       name={props.name}
       value={props.value && toOption(props.value)}
