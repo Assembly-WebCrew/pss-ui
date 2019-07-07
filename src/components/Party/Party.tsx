@@ -7,12 +7,9 @@ import "ag-grid-community/dist/styles/ag-theme-material.css";
 
 import { StoreState, PartyEvent, Party as IParty } from "../../types";
 import { RouteComponentProps } from "react-router";
-import {
-  getEvents,
-  editEvent,
-  getTags,
-  getLocations
-} from "../../services/api";
+import { getEvents, editEvent } from "../../services/EventService";
+import { getTags } from "../../services/TagService";
+import { getLocations } from "../../services/LocationService";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 import BasicGrid from "./grid/BasicGrid";

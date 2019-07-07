@@ -7,7 +7,7 @@ import Button, { ButtonStyle } from "../Button";
 import Modal, { ModalSize } from "../Modal";
 import Input from "../Form/Input";
 import Icon from "../Icon";
-import { getParties, addParty } from "../../services/api";
+import { getParties, addParty } from "../../services/PartyService";
 import theme from "../../theme";
 
 const PartyList = styled.ul`

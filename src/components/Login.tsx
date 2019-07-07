@@ -5,7 +5,7 @@ import Button from "./Button";
 import Input from "./Form/Input";
 import { StoreState } from "../types";
 import { connect } from "react-redux";
-import { login } from "../services/api";
+import { login } from "../services/SessionService";
 import { Loading } from "./Loading";
 
 interface Props extends RouteProps {
