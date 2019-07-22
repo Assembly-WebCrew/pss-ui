@@ -7,11 +7,13 @@ import {
   dateFormatter,
   tagFormatter,
   GridProps,
-  eventLocationFormatter
+  eventLocationFormatter,
+  booleanFormatter
 } from "./utils";
 import styled from "styled-components";
 import Tags from "./components/Tags";
 import EventLocation from "./components/EventLocation";
+import Dropdown from "./components/Dropdown";
 
 const Grid = styled.div`
   width: 100%;
@@ -74,9 +76,10 @@ class BasicGrid extends React.Component<GridProps> {
         headerName: "Public",
         field: "isPublic",
         maxWidth: 100,
-        cellEditor: "agSelectCellEditor",
+        valueFormatter: booleanFormatter,
+        cellEditor: "dropdown",
         cellEditorParams: {
-          values: [true, false]
+          values: [{ label: "Yes", value: true }, { label: "No", value: false }]
         }
       },
       {
@@ -134,6 +137,7 @@ class BasicGrid extends React.Component<GridProps> {
     frameworkComponents: {
       actionsRenderer: Actions,
       datePicker: DatePicker,
+      dropdown: Dropdown,
       tagsEditor: Tags,
       eventLocationEditor: EventLocation
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import Select from "../../../Form/Select";
+import CreatableSelect from "../../../Form/CreatableSelect";
 import { ICellEditorParams } from "ag-grid-community";
 import { Tag } from "../../../../types";
 import { ActionMeta, InputActionMeta } from "react-select/src/types";
@@ -44,7 +44,7 @@ export default class Tags extends React.Component<Props, State> {
 
   render() {
     return (
-      <Select
+      <CreatableSelect
         isMulti={true}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}

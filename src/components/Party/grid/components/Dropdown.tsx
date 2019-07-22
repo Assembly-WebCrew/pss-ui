@@ -1,30 +1,28 @@
 import React from "react";
-import CreatableSelect from "../../../Form/CreatableSelect";
 import { ICellEditorParams } from "ag-grid-community";
-import { EventLocation as EventLocationT } from "../../../../types";
 import { ActionMeta, InputActionMeta } from "react-select/src/types";
+import Select from "../../../Form/Select";
+
+type Value = { label?: string; value: any };
 
 interface State {
-  value: EventLocationT & { label?: string; value?: any };
+  value: Value;
 }
 
 interface Props extends ICellEditorParams {
-  values: () => Array<EventLocationT>;
+  values: Array<Value>;
 }
 
-export default class EventLocation extends React.Component<Props, State> {
+export default class Dropdown extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { value: props.value };
+    this.state = {
+      value: this.props.values.find(v => v.value === props.value)!
+    };
   }
 
   getValue() {
-    return {
-      id: this.state.value.id,
-      name: this.state.value.label || this.state.value.name,
-      description: this.state.value.description,
-      url: this.state.value.url
-    };
+    return this.state.value.value;
   }
 
   handleChange = (newValue: any, actionMeta: ActionMeta) => {
@@ -42,13 +40,11 @@ export default class EventLocation extends React.Component<Props, State> {
   };
   render() {
     return (
-      <CreatableSelect
-        isMulti={false}
+      <Select
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
         value={this.state.value}
-        name="location"
-        options={this.props.values ? this.props.values() : []}
+        options={this.props.values}
       />
     );
   }

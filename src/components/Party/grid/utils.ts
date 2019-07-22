@@ -21,3 +21,7 @@ export const tagFormatter = (params: any) => {
     (params.value && params.value.map((tag: Tag) => tag.name).join(", ")) || ""
   );
 };
+
+export const booleanFormatter = (params: any) => {
+  return params.value ? "Yes" : "No";
+};
