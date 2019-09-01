@@ -1,46 +1,71 @@
 import React from "react";
-import Select from "../../../Form/Select";
+import CreatableSelect from "../../../Form/CreatableSelect";
 import { ICellEditorParams } from "ag-grid-community";
 import { EventLocation as EventLocationT } from "../../../../types";
 
+type Value = EventLocationT & { label?: string; value?: any };
+
 interface State {
-  value: EventLocationT;
+  value: Value;
 }
 
-export default class EventLocation extends React.Component<
-  ICellEditorParams,
-  State
-> {
-  constructor(props: ICellEditorParams) {
+interface Props extends ICellEditorParams {
+  values: () => Array<EventLocationT>;
+}
+
+export default class EventLocation extends React.Component<Props, State> {
+  selectRef?: React.RefObject<any>;
+
+  constructor(props: Props) {
     super(props);
+    this.selectRef = React.createRef();
     this.state = { value: props.value };
   }
 
-  getValue() {
-    return this.state.value;
+  mapValue(value: Value) {
+    return {
+      ...value,
+      id: value.id,
+      name: value.label || value.name,
+      description: value.description,
+      url: value.url
+    };
   }
 
-  handleChange = (newValue: any, actionMeta: any) => {
-    console.group("Value Changed");
-    console.log(newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
+  getValue() {
+    return this.mapValue(this.state.value);
+  }
+
+  focusIn() {
+    if (this.selectRef && this.selectRef.current.select.select) {
+      this.selectRef.current.select.select.focus();
+    }
+  }
+
+  handleChange = (newValue: Value) => {
+    this.setState({ value: this.mapValue(newValue) });
   };
-  handleInputChange = (inputValue: any, actionMeta: any) => {
-    console.group("Input Changed");
-    console.log(inputValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-  };
+
   render() {
+    const values = this.props.values ? this.props.values() : [];
+
+    if (this.state.value) {
+      const index = values.findIndex(v => v.name === this.state.value.name);
+      if (index === -1) {
+        values.push(this.getValue());
+      } else if (values[index].id && !this.state.value.id) {
+        this.setState({ value: values[index] });
+      }
+    }
+
     return (
-      <Select
+      <CreatableSelect
+        innerRef={this.selectRef}
         isMulti={false}
         onChange={this.handleChange}
-        // onInputChange={this.handleInputChange}
         value={this.state.value}
         name="location"
-        options={[]}
+        options={values}
       />
     );
   }

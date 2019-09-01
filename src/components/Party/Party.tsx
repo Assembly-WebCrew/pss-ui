@@ -5,7 +5,13 @@ import styled from "styled-components";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-material.css";
 
-import { StoreState, PartyEvent, Party as IParty } from "../../types";
+import {
+  StoreState,
+  PartyEvent,
+  Party as IParty,
+  EventLocation,
+  Tag
+} from "../../types";
 import { RouteComponentProps } from "react-router";
 import { getEvents, editEvent } from "../../services/EventService";
 import { getTags } from "../../services/TagService";
@@ -34,6 +40,8 @@ const Container = styled.div`
 
 interface PartyProps extends RouteComponentProps {
   events: Array<PartyEvent> | undefined;
+  locations: Array<EventLocation>;
+  tags: Array<Tag>;
 }
 interface PartyState {
   party: IParty;
@@ -50,8 +58,7 @@ class Party extends React.Component<PartyProps, PartyState> {
       this.setState({ party: params.party });
       getEvents(params.party);
     }
-    getTags();
-    getLocations();
+    getLocations().then(getTags);
   }
 
   onUpdateEvent = async (event: RowValueChangedEvent) => {
@@ -76,6 +83,8 @@ class Party extends React.Component<PartyProps, PartyState> {
         <PartyGrid className="ag-theme-material">
           <BasicGrid
             events={this.props.events}
+            locations={this.props.locations}
+            tags={this.props.tags}
             onRowValueChange={this.onUpdateEvent}
           />
         </PartyGrid>
@@ -92,7 +101,9 @@ const mapStateToProps = (state: StoreState, ownProps: PartyProps) => {
     "";
 
   return {
-    events: state.events[params.party]
+    events: state.events[params.party],
+    locations: state.locations,
+    tags: state.tags
   };
 };
 

@@ -1,40 +1,35 @@
 import React from "react";
-import Creatable from "react-select/creatable";
-
-interface SelectAction {
-  action:
-    | "clear"
-    | "create-option"
-    | "deselect-option"
-    | "pop-value"
-    | "remove-value"
-    | "select-option"
-    | "set-value";
-}
+import ReactSelect from "react-select";
+import { InputActionMeta, ActionMeta } from "react-select/src/types";
+import { customSelectStyles } from "./utils";
 
 interface SelectProps {
-  isMulti: boolean;
-  name: string;
+  isMulti?: boolean;
+  isSearchable?: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  name?: string;
   value?: any;
+  innerRef?: React.RefObject<any>;
   options: Array<any>;
-  onChange?: (value: any, actionMeta: SelectAction) => void;
+  onChange?: (value: any, actionMeta: ActionMeta) => void;
+  onInputChange?: (value: any, actionMeta: InputActionMeta) => void;
 }
-
-const toOption = (data: any) => ({
-  ...data,
-  value: data.id,
-  label: data.name
-});
 
 const Select: React.FunctionComponent<SelectProps> = props => {
   return (
-    <Creatable
-      isClearable
+    <ReactSelect
+      ref={props.innerRef}
+      styles={customSelectStyles}
+      isSearchable={props.isSearchable}
       isMulti={props.isMulti}
+      isDisabled={props.isDisabled}
+      isLoading={props.isLoading}
       name={props.name}
-      value={props.value && toOption(props.value)}
+      value={props.value}
       onChange={props.onChange}
-      options={props.options.map(toOption)}
+      onInputChange={props.onInputChange}
+      options={props.options}
     />
   );
 };

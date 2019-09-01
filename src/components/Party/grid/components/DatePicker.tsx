@@ -10,8 +10,8 @@ const StyledDatePicker = styled.div`
   }
   &&& .ag-theme-material .ag-cell-inline-editing input[type="text"],
   .MuiInputBase-input {
-    padding-top: 2px;
-    padding-bottom: 3px !important;
+    padding-top: 0;
+    padding-bottom: 1px !important;
   }
   .MuiInput-underline:before {
     border-bottom: 2px solid #e2e2e2;
