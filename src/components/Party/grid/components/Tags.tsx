@@ -2,7 +2,6 @@ import React from "react";
 import CreatableSelect from "../../../Form/CreatableSelect";
 import { ICellEditorParams } from "ag-grid-community";
 import { Tag } from "../../../../types";
-import { ActionMeta, InputActionMeta } from "react-select/src/types";
 
 type Value = Tag & { label?: string; value?: any };
 
@@ -15,39 +14,42 @@ interface Props extends ICellEditorParams {
 }
 
 export default class Tags extends React.Component<Props, State> {
+  selectRef?: React.RefObject<any>;
+
   constructor(props: Props) {
     super(props);
+    this.selectRef = React.createRef();
     this.state = { value: props.value };
   }
 
-  getValue() {
-    return this.state.value.map((v: Value) => ({
-      id: v.id,
-      name: v.label || v.name
-    }));
+  mapValue(value: Value) {
+    return {
+      ...value,
+      id: value.id,
+      name: value.label || value.name
+    };
   }
 
-  handleChange = (newValue: any, actionMeta: ActionMeta) => {
-    console.group("Value Changed");
-    console.log(newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-    this.setState({ value: newValue });
-  };
+  getValue() {
+    return this.state.value.map(this.mapValue);
+  }
 
-  handleInputChange = (inputValue: any, actionMeta: InputActionMeta) => {
-    console.group("Input Changed");
-    console.log(inputValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
+  focusIn() {
+    if (this.selectRef && this.selectRef.current.select.select) {
+      this.selectRef.current.select.select.focus();
+    }
+  }
+
+  handleChange = (newValue: Array<Value>) => {
+    this.setState({ value: newValue.map(this.mapValue) });
   };
 
   render() {
     return (
       <CreatableSelect
+        innerRef={this.selectRef}
         isMulti={true}
         onChange={this.handleChange}
-        onInputChange={this.handleInputChange}
         value={this.state.value}
         name="tags"
         options={this.props.values ? this.props.values() : []}

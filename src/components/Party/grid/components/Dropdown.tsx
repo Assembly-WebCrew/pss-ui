@@ -14,8 +14,11 @@ interface Props extends ICellEditorParams {
 }
 
 export default class Dropdown extends React.Component<Props, State> {
+  selectRef?: React.RefObject<any>;
+
   constructor(props: Props) {
     super(props);
+    this.selectRef = React.createRef();
     this.state = {
       value: this.props.values.find(v => v.value === props.value)!
     };
@@ -23,6 +26,12 @@ export default class Dropdown extends React.Component<Props, State> {
 
   getValue() {
     return this.state.value.value;
+  }
+
+  focusIn(a: any) {
+    if (this.selectRef && this.selectRef.current.select) {
+      this.selectRef.current.select.focus();
+    }
   }
 
   handleChange = (newValue: any, actionMeta: ActionMeta) => {
@@ -41,6 +50,7 @@ export default class Dropdown extends React.Component<Props, State> {
   render() {
     return (
       <Select
+        innerRef={this.selectRef}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
         value={this.state.value}

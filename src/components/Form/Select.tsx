@@ -10,6 +10,7 @@ interface SelectProps {
   isLoading?: boolean;
   name?: string;
   value?: any;
+  innerRef?: React.RefObject<any>;
   options: Array<any>;
   onChange?: (value: any, actionMeta: ActionMeta) => void;
   onInputChange?: (value: any, actionMeta: InputActionMeta) => void;
@@ -18,6 +19,7 @@ interface SelectProps {
 const Select: React.FunctionComponent<SelectProps> = props => {
   return (
     <ReactSelect
+      ref={props.innerRef}
       styles={customSelectStyles}
       isSearchable={props.isSearchable}
       isMulti={props.isMulti}

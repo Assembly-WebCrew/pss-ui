@@ -8,8 +8,8 @@ const isOptionDisabled = (option: any, currentValues: any) => {
 
 export const toOption = (data: any, currentValues?: any) => ({
   ...data,
-  value: data.id,
-  label: data.name,
+  value: data.id || "",
+  label: data.name || "",
   isDisabled: currentValues && isOptionDisabled(data, currentValues)
 });
 

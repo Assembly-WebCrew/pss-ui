@@ -70,6 +70,9 @@ class BasicGrid extends React.Component<GridProps> {
         cellEditor: "eventLocationEditor",
         cellEditorParams: {
           values: () => this.props.locations
+        },
+        suppressKeyboardEvent: params => {
+          return params.editing && params.event.keyCode === 13;
         }
       },
       {
@@ -121,6 +124,9 @@ class BasicGrid extends React.Component<GridProps> {
         cellEditor: "tagsEditor",
         cellEditorParams: {
           values: () => this.props.tags
+        },
+        suppressKeyboardEvent: params => {
+          return params.editing && params.event.keyCode === 13;
         }
       },
       { headerName: "Description", field: "description" },
