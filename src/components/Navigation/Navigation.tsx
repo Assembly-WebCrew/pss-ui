@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Link, NavLink, Route } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { withRouter, RouteComponentProps } from 'react-router'
 import styled from "styled-components";
 
 import Icon from "../Icon";
@@ -8,6 +9,7 @@ import Button from "../Button";
 import { StoreState } from "../../types";
 import { connect } from "react-redux";
 import { logout } from "../../services/SessionService";
+import { exportEvents } from "../../services/EventService";
 
 const StyledNavigation = styled.div`
   display: flex;
@@ -101,60 +103,58 @@ const Logout = styled(Button)`
   color: white;
 `;
 
-const PartyNavigationItems = () => (
-  <>
-    <StyledNavLink exact={true} to="/parties/import" title="Import">
-      <Icon>get_app</Icon>
-      <Text>Import party</Text>
-    </StyledNavLink>
-    <StyledNavLink exact={true} to="/parties/export" title="Export">
-      <Icon>publish</Icon>
-      <Text>Export party</Text>
-    </StyledNavLink>
-  </>
-);
+const exportParty = (eventName: string, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  e.preventDefault();
+  exportEvents(eventName);
+}
 
-interface NavigationProps {
+interface Props extends RouteComponentProps {
   isAuthenticated: boolean;
 }
-interface RouteProps {
-  match: boolean;
-}
 
-class Navigation extends React.Component<NavigationProps> {
-  onLogout = () => {
-    logout();
-  };
+class Navigation extends React.Component<Props> {
 
   public render() {
+    const navLinks = [];
+    let logoutButton = null;
+
+    if (this.props.isAuthenticated) {
+      logoutButton = <Logout onClick={logout}>Logout</Logout>
+      navLinks.push(
+        <StyledNavLink key='import' to="/import" title="Import">
+          <Icon>get_app</Icon>
+          <Text>Import party</Text>
+        </StyledNavLink>
+      );
+      if (this.props.location.pathname.match(/\/parties\/.+/)) { // A party is selected
+        const party = this.props.location.pathname.split('/')[2];
+        navLinks.push(
+          <StyledNavLink key='export' onClick={e => exportParty(party, e)} to='' title="Export">
+            <Icon>publish</Icon>
+            <Text>Export party</Text>
+          </StyledNavLink>
+        );
+      }
+    }
+
     return (
       <StyledNavigation>
         <LogoLink to="/">
           <img src={logo} className="logo" alt="logo" />
         </LogoLink>
-        {this.props.isAuthenticated && (
-          <Container>
-            <NavContainer>
-              <Route
-                exact={true}
-                path="/parties"
-                children={({ match }: RouteProps) => (
-                  <>{match && <PartyNavigationItems />}</>
-                )}
-              />
-            </NavContainer>
-            <Logout onClick={this.onLogout}>Logout</Logout>
-          </Container>
-        )}
+        <Container>
+          <NavContainer>
+            {navLinks}
+          </NavContainer>
+          {logoutButton}
+        </Container>
       </StyledNavigation>
     );
   }
 }
 
-function mapStateToProps(state: StoreState) {
-  return {
-    isAuthenticated: state.session.isAuthenticated
-  };
-}
+const mapStateToProps = (state: StoreState) => ({
+  isAuthenticated: state.session.isAuthenticated
+});
 
-export default connect(mapStateToProps)(Navigation);
+export default withRouter(connect(mapStateToProps)(Navigation));

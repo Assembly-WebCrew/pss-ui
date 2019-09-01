@@ -2,7 +2,7 @@ import { PartyEvent, Party } from "../types";
 import { AxiosResponse } from "axios";
 import store from "../store";
 import actions from "../redux/actions";
-import { get, post, remove } from "./api";
+import { get, post, remove, API_URL } from "./api";
 
 export const getEvents = async (party: Party) => {
   try {
@@ -54,4 +54,27 @@ export const deleteEvent = async (event: PartyEvent) => {
   } catch (error) {
     return false;
   }
+}
+
+export const importEvents = async () => {
+
+}
+
+export const exportEvents = async (partyName: string) => {
+  const headers: any = {};
+  const auth = store.getState().session.authorization;
+  if (auth) headers.Authorization = auth;
+
+  const anchor = document.createElement("a");
+  return fetch(API_URL + "/admin/event/party/" + partyName + "/export", { headers })
+    .then(response => response.blob())
+    .then(blob => {
+      const objectUrl = window.URL.createObjectURL(blob);
+
+      anchor.href = objectUrl;
+      anchor.download = 'events_' + partyName + '.csv';
+      anchor.click();
+
+      window.URL.revokeObjectURL(objectUrl);
+    });
 }
