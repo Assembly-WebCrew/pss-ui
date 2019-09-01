@@ -8,7 +8,7 @@ import {
 import styled from "styled-components";
 import Login from "./Login";
 import Navigation from "./Navigation/Navigation";
-import NotImplemented from "./NotImplemented";
+import Import from "./Import";
 import Parties from "./Party/Parties";
 import Party from "./Party/Party";
 import PrivateRoute from "./PrivateRoute";
@@ -30,7 +30,7 @@ const AppContent = styled.div`
 
 Modal.setAppElement("#root");
 
-class App extends React.Component {
+export default class App extends React.Component {
   public render() {
     return (
       <Router>
@@ -38,21 +38,14 @@ class App extends React.Component {
           <Navigation />
           <AppContent>
             <Switch>
-              <PrivateRoute exact={true} path="/parties" component={Parties} />
-              <PrivateRoute path="/parties/import" component={NotImplemented} />
-              <PrivateRoute path="/parties/export" component={NotImplemented} />
-              <PrivateRoute
-                exact={true}
-                path="/parties/:party"
-                component={Party}
-              />
-              <PrivateRoute
-                exact={true}
-                path="/parties/:party/:event"
-                component={PartyEvent}
-              />
-              <Route path="/login" component={Login} />
+              <PrivateRoute exact path="/parties" component={Parties} />
+              <PrivateRoute exact path="/import" component={Import} />
+              <PrivateRoute exact path="/parties/:party" component={Party} />
+              <PrivateRoute exact path="/parties/:party/:event" component={PartyEvent} />
+              <Route exact path="/login" component={Login} />
               <Redirect from="/" to="/parties" push={true} />
+              {/* This must be last, it redirects anything else to the front page. Posssibly a "not found error" in the future */}
+              <Redirect to="/" />
             </Switch>
           </AppContent>
         </StyledApp>
@@ -60,5 +53,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;

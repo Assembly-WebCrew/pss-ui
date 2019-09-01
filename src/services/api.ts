@@ -2,7 +2,7 @@ import axios, { Method } from "axios";
 import store from "../store";
 
 type Headers = { [key: string]: any };
-const API_URL = process.env.REACT_APP_API_URL || "/api";
+export const API_URL = process.env.REACT_APP_API_URL || "/api";
 
 export const get = async (path: string, headers: Headers = {}) => call("get", path, undefined, headers);
 export const post = async (path: string, data: any) => call("post", path, data);
