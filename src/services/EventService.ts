@@ -6,12 +6,14 @@ import { get, post, remove, API_URL, ApiResponse } from './api';
 export const getEvents = async (party: Party) => {
   try {
     const response: ApiResponse<PartyEvent[]> = await get('/admin/event/party/' + party);
-    store.dispatch(
-      actions.setEvents({
-        [party]: response.data.sort((a, b) => a.startTime - b.startTime)
-      })
-    );
-    return true;
+    if (response.data) {
+      store.dispatch(
+        actions.setEvents({
+          [party]: response.data.sort((a, b) => a.startTime - b.startTime)
+        })
+      );
+    }
+    return !!response.data;
   } catch (error) {
     return false;
   }
@@ -20,8 +22,10 @@ export const getEvents = async (party: Party) => {
 export const addEvent = async (event: PartyEvent) => {
   try {
     const response: ApiResponse<PartyEvent> = await post('/admin/event', event);
-    store.dispatch(actions.addEvent(response.data));
-    return true;
+    if (response.data && response.fetchResponse.ok) {
+      store.dispatch(actions.addEvent(response.data));
+    }
+    return response.fetchResponse.ok;
   } catch (error) {
     return false;
   }
@@ -30,8 +34,10 @@ export const addEvent = async (event: PartyEvent) => {
 export const editEvent = async (event: PartyEvent) => {
   try {
     const response: ApiResponse<PartyEvent> = await post('/admin/event', event);
-    store.dispatch(actions.editEvent(response.data));
-    return true;
+    if (response.data && response.fetchResponse.ok) {
+      store.dispatch(actions.editEvent(response.data));
+    }
+    return response.fetchResponse.ok;
   } catch (error) {
     return false;
   }

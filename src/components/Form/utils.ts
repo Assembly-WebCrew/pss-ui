@@ -8,7 +8,7 @@ const isOptionDisabled = (option: any, currentValues: any) => {
 
 export const toOption = (data: any, currentValues?: any) => ({
   ...data,
-  value: data.id || '',
+  value: data.name || '',
   label: data.name || '',
   isDisabled: currentValues && isOptionDisabled(data, currentValues)
 });
@@ -29,7 +29,7 @@ export const customSelectStyles = {
     backgroundColor: state.isFocused ? '#2684FF' : '#FFF',
     color: state.isFocused ? '#FFF' : '#000'
   }),
-  menu: (provided: any, state: any) => ({
+  menu: (provided: any) => ({
     ...provided,
     position: 'absolute' as const,
     top: 40,
@@ -48,7 +48,11 @@ export const customSelectStyles = {
     width: '100%',
     position: 'relative' as const
   }),
-  control: () => ({
+  valueContainer: (provided: any) => ({
+    ...provided,
+    padding: '2px 0'
+  }),
+  control: (provided: any, state: any) => ({
     display: 'flex',
     alignItems: 'center',
     height: '100%',
@@ -61,6 +65,10 @@ export const customSelectStyles = {
     fontSize: 'inherit',
     paddingBottom: 8,
     borderWidth: 0,
-    borderBottom: '2px solid #e2e2e2'
+    borderBottom: state.isFocused ? '2px solid #3f51b5' : '2px solid #e2e2e2',
+    transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    ':hover': {
+      borderBottom: state.isFocused ? '2px solid #3f51b5' : '2px solid rgba(0, 0, 0, 0.87)'
+    }
   })
 };

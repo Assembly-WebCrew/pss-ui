@@ -6,8 +6,10 @@ import { get, ApiResponse } from './api';
 export const getParties = async () => {
   try {
     const response: ApiResponse<Array<Party>> = await get('/admin/party');
-    store.dispatch(actions.setParties(response.data));
-    return true;
+    if (response.data) {
+      store.dispatch(actions.setParties(response.data));
+    }
+    return !!response.data;
   } catch (error) {
     return false;
   }

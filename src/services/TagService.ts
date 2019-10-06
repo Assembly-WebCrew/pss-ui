@@ -6,8 +6,10 @@ import { get, post, ApiResponse } from './api';
 export const getTags = async () => {
   try {
     const response: ApiResponse<Array<Tag>> = await get('/admin/tag');
-    store.dispatch(actions.setTags(response.data));
-    return true;
+    if (response.data) {
+      store.dispatch(actions.setTags(response.data));
+    }
+    return !!response.data;
   } catch (error) {
     return false;
   }
@@ -16,8 +18,10 @@ export const getTags = async () => {
 export const addTag = async (tag: Tag) => {
   try {
     const response: ApiResponse<Tag> = await post('/admin/tag', tag);
-    store.dispatch(actions.addTag(response.data));
-    return true;
+    if (response.data) {
+      store.dispatch(actions.addTag(response.data));
+    }
+    return !!response.data;
   } catch (error) {
     return false;
   }

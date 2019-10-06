@@ -5,7 +5,7 @@ type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type Headers = { [key: string]: any };
 
 export interface ApiResponse<T> {
-  data: T;
+  data?: T;
   fetchResponse: Response;
 }
 
@@ -29,6 +29,10 @@ const call = async <T>(method: Method, path: string, body: any = undefined, head
     headers,
     body
   });
-  const data: T = await fetchResponse.json();
-  return { data, fetchResponse };
+  const contentType = fetchResponse.headers.get('Content-Type') || '';
+  if (contentType.includes('application/json')) {
+    const data: T = await fetchResponse.json();
+    return { data, fetchResponse };
+  }
+  return { fetchResponse };
 };
