@@ -1,14 +1,12 @@
 import { PartyEvent, Party } from "../types";
-import { AxiosResponse } from "axios";
 import store from "../store";
 import actions from "../redux/actions";
-import { get, post, remove, API_URL } from "./api";
+import { get, post, remove, API_URL, ApiResponse } from "./api";
+
 
 export const getEvents = async (party: Party) => {
   try {
-    const response: AxiosResponse<PartyEvent[]> = await get(
-      `/admin/event/party/${party}`
-    );
+    const response: ApiResponse<PartyEvent[]> = await get("/admin/event/party/" + party);
     store.dispatch(
       actions.setEvents({
         [party]: response.data.sort((a, b) => a.startTime - b.startTime)
@@ -22,10 +20,7 @@ export const getEvents = async (party: Party) => {
 
 export const addEvent = async (event: PartyEvent) => {
   try {
-    const response: AxiosResponse<PartyEvent> = await post(
-      `/admin/event`,
-      event
-    );
+    const response: ApiResponse<PartyEvent> = await post("/admin/event", event);
     store.dispatch(actions.addEvent(response.data));
     return true;
   } catch (error) {
@@ -35,10 +30,7 @@ export const addEvent = async (event: PartyEvent) => {
 
 export const editEvent = async (event: PartyEvent) => {
   try {
-    const response: AxiosResponse<PartyEvent> = await post(
-      `/admin/event`,
-      event
-    );
+    const response: ApiResponse<PartyEvent> = await post("/admin/event", event);
     store.dispatch(actions.editEvent(response.data));
     return true;
   } catch (error) {
