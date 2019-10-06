@@ -1,14 +1,14 @@
-import * as React from "react";
-import { ICellEditorParams } from "ag-grid-community";
-import styled from "styled-components";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import * as React from 'react';
+import { ICellEditorParams } from 'ag-grid-community';
+import styled from 'styled-components';
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 const StyledDatePicker = styled.div`
   .MuiInputBase-root {
     font-size: 1em;
   }
-  &&& .ag-theme-material .ag-cell-inline-editing input[type="text"],
+  &&& .ag-theme-material .ag-cell-inline-editing input[type='text'],
   .MuiInputBase-input {
     padding-top: 0;
     padding-bottom: 1px !important;
@@ -32,7 +32,7 @@ export class DatePicker extends React.Component<ICellEditorParams, State> {
 
   focusIn(a: any) {
     if (this.datePicker) {
-      const input = this.datePicker.getElementsByTagName("input")[0];
+      const input = this.datePicker.getElementsByTagName('input')[0];
       input.focus();
       input.select();
     }
@@ -43,7 +43,7 @@ export class DatePicker extends React.Component<ICellEditorParams, State> {
   };
 
   getValue() {
-    if (typeof this.state.date === "number") {
+    if (typeof this.state.date === 'number') {
       return this.state.date;
     } else if (this.state.date) {
       return this.state.date.getTime();
@@ -55,13 +55,7 @@ export class DatePicker extends React.Component<ICellEditorParams, State> {
   render() {
     return (
       <StyledDatePicker ref={ref => (this.datePicker = ref)}>
-        <KeyboardDateTimePicker
-          ampm={false}
-          value={this.state.date}
-          onChange={this.handleChange}
-          format="dd.MM.yyyy HH:mm"
-          clearable
-        />
+        <KeyboardDateTimePicker ampm={false} value={this.state.date} onChange={this.handleChange} format="dd.MM.yyyy HH:mm" clearable />
       </StyledDatePicker>
     );
   }

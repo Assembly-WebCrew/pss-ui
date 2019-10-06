@@ -1,5 +1,5 @@
-import { Tag, PartyEvent, EventLocation } from "../../../types";
-import { RowValueChangedEvent } from "ag-grid-community";
+import { Tag, PartyEvent, EventLocation } from '../../../types';
+import { RowValueChangedEvent } from 'ag-grid-community';
 
 export interface GridProps {
   events: Array<PartyEvent> | undefined;
@@ -9,19 +9,17 @@ export interface GridProps {
 }
 
 export const dateFormatter = (params: any) => {
-  return params.value ? new Date(params.value).toLocaleString("fi") : "";
+  return params.value ? new Date(params.value).toLocaleString('fi') : '';
 };
 
 export const eventLocationFormatter = (params: any) => {
-  return params.value ? params.value.name : "";
+  return params.value ? params.value.name : '';
 };
 
 export const tagFormatter = (params: any) => {
-  return (
-    (params.value && params.value.map((tag: Tag) => tag.name).join(", ")) || ""
-  );
+  return (params.value && params.value.map((tag: Tag) => tag.name).join(', ')) || '';
 };
 
 export const booleanFormatter = (params: any) => {
-  return params.value ? "Yes" : "No";
+  return params.value ? 'Yes' : 'No';
 };

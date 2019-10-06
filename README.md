@@ -4,7 +4,7 @@ This projet is a UI implementation for [Party Schedule Service](https://github.c
 
 ## Usage
 
-[Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) is required for development.
+[Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) is required for development. VSCode and Prettier used for code conventions/formatting.
 
 To install required dependencies run `yarn install` in project directory.
 In the project directory, you can also run:

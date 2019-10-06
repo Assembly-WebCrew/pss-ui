@@ -1,7 +1,7 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { StoreState } from "../types/index";
-import { RouteProps, Redirect, Route } from "react-router";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { StoreState } from '../types/index';
+import { RouteProps, Redirect, Route } from 'react-router';
 
 interface IProps extends RouteProps {
   component: React.ComponentType<any>;
@@ -11,18 +11,7 @@ interface IProps extends RouteProps {
 class PrivateRoute extends React.Component<IProps> {
   public render() {
     const { component: Component, ...rest } = this.props;
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          this.props.isAuthenticated ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to="/login" />
-          )
-        }
-      />
-    );
+    return <Route {...rest} render={props => (this.props.isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />)} />;
   }
 }
 

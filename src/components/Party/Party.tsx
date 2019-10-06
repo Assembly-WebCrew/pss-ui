@@ -1,25 +1,19 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-material.css";
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-import {
-  StoreState,
-  PartyEvent,
-  Party as IParty,
-  EventLocation,
-  Tag
-} from "../../types";
-import { RouteComponentProps } from "react-router";
-import { getEvents, editEvent } from "../../services/EventService";
-import { getTags } from "../../services/TagService";
-import { getLocations } from "../../services/LocationService";
-import Button from "../Button";
-import { Link } from "react-router-dom";
-import BasicGrid from "./grid/BasicGrid";
-import { RowValueChangedEvent } from "ag-grid-community";
+import { StoreState, PartyEvent, Party as IParty, EventLocation, Tag } from '../../types';
+import { RouteComponentProps } from 'react-router';
+import { getEvents, editEvent } from '../../services/EventService';
+import { getTags } from '../../services/TagService';
+import { getLocations } from '../../services/LocationService';
+import Button from '../Button';
+import { Link } from 'react-router-dom';
+import BasicGrid from './grid/BasicGrid';
+import { RowValueChangedEvent } from 'ag-grid-community';
 
 const PartyGrid = styled.div`
   width: 100%;
@@ -49,11 +43,11 @@ interface PartyState {
 
 class Party extends React.Component<PartyProps, PartyState> {
   state: PartyState = {
-    party: ""
+    party: ''
   };
 
   componentDidMount() {
-    if (this.props.match && this.props.match.params.hasOwnProperty("party")) {
+    if (this.props.match && this.props.match.params.hasOwnProperty('party')) {
       const params: { [key: string]: string } = this.props.match.params;
       this.setState({ party: params.party });
       getEvents(params.party);
@@ -81,12 +75,7 @@ class Party extends React.Component<PartyProps, PartyState> {
           </Link>
         </EventActions>
         <PartyGrid className="ag-theme-material">
-          <BasicGrid
-            events={this.props.events}
-            locations={this.props.locations}
-            tags={this.props.tags}
-            onRowValueChange={this.onUpdateEvent}
-          />
+          <BasicGrid events={this.props.events} locations={this.props.locations} tags={this.props.tags} onRowValueChange={this.onUpdateEvent} />
         </PartyGrid>
       </Container>
     );
@@ -94,11 +83,7 @@ class Party extends React.Component<PartyProps, PartyState> {
 }
 
 const mapStateToProps = (state: StoreState, ownProps: PartyProps) => {
-  const params: { [key: string]: string } =
-    (ownProps.match &&
-      ownProps.match.params.hasOwnProperty("party") &&
-      ownProps.match.params) ||
-    "";
+  const params: { [key: string]: string } = (ownProps.match && ownProps.match.params.hasOwnProperty('party') && ownProps.match.params) || '';
 
   return {
     events: state.events[params.party],

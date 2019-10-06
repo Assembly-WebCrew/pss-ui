@@ -1,4 +1,4 @@
-import { ActionType, Party, Action } from "../../types";
+import { ActionType, Party, Action } from '../../types';
 
 export default (state: Party[] = [], action: Action): Party[] => {
   switch (action.type) {

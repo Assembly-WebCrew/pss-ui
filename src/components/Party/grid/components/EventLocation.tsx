@@ -1,7 +1,7 @@
-import React from "react";
-import CreatableSelect from "../../../Form/CreatableSelect";
-import { ICellEditorParams } from "ag-grid-community";
-import { EventLocation as EventLocationT } from "../../../../types";
+import React from 'react';
+import CreatableSelect from '../../../Form/CreatableSelect';
+import { ICellEditorParams } from 'ag-grid-community';
+import { EventLocation as EventLocationT } from '../../../../types';
 
 type Value = EventLocationT & { label?: string; value?: any };
 
@@ -58,15 +58,6 @@ export default class EventLocation extends React.Component<Props, State> {
       }
     }
 
-    return (
-      <CreatableSelect
-        innerRef={this.selectRef}
-        isMulti={false}
-        onChange={this.handleChange}
-        value={this.state.value}
-        name="location"
-        options={values}
-      />
-    );
+    return <CreatableSelect innerRef={this.selectRef} isMulti={false} onChange={this.handleChange} value={this.state.value} name="location" options={values} />;
   }
 }

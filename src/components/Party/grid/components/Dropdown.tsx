@@ -1,7 +1,7 @@
-import React from "react";
-import { ICellEditorParams } from "ag-grid-community";
-import { ActionMeta, InputActionMeta } from "react-select/src/types";
-import Select from "../../../Form/Select";
+import React from 'react';
+import { ICellEditorParams } from 'ag-grid-community';
+import { ActionMeta, InputActionMeta } from 'react-select/src/types';
+import Select from '../../../Form/Select';
 
 type Value = { label?: string; value: any };
 
@@ -35,14 +35,14 @@ export default class Dropdown extends React.Component<Props, State> {
   }
 
   handleChange = (newValue: any, actionMeta: ActionMeta) => {
-    console.group("Value Changed");
+    console.group('Value Changed');
     console.log(newValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
     this.setState({ value: newValue });
   };
   handleInputChange = (inputValue: any, actionMeta: InputActionMeta) => {
-    console.group("Input Changed");
+    console.group('Input Changed');
     console.log(inputValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();

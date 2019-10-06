@@ -16,10 +16,9 @@ import {
   SetSession,
   SetTags,
   AddTag
-} from "../types";
+} from '../types';
 
 export default {
-
   // Events
 
   addEvent: (payload: PartyEvent): AddEvent => ({ payload, type: ActionType.ADD_EVENT }),
@@ -44,5 +43,4 @@ export default {
 
   setTags: (payload: Array<Tag>): SetTags => ({ payload, type: ActionType.SET_TAGS }),
   addTag: (payload: Tag): AddTag => ({ payload, type: ActionType.ADD_TAG })
-
-}
+};

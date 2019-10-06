@@ -1,4 +1,4 @@
-import { PartyEvent, Session, Party, PartyEvents, EventLocation, Tag } from ".";
+import { PartyEvent, Session, Party, PartyEvents, EventLocation, Tag } from '.';
 
 export enum ActionType {
   ADD_EVENT,
@@ -66,14 +66,4 @@ export interface SetSession {
   type: ActionType.SET_SESSION;
 }
 
-export type Action =
-  | AddEvent
-  | RemoveEvent
-  | AddParty
-  | EditEvent
-  | SetEvents
-  | SetParties
-  | SetLocations
-  | SetTags
-  | AddTag
-  | SetSession;
+export type Action = AddEvent | RemoveEvent | AddParty | EditEvent | SetEvents | SetParties | SetLocations | SetTags | AddTag | SetSession;

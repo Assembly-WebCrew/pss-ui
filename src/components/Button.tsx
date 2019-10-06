@@ -1,6 +1,6 @@
-import * as React from "react";
-import styled from "styled-components";
-import theme from "../theme";
+import * as React from 'react';
+import styled from 'styled-components';
+import theme from '../theme';
 
 const Content = styled.span`
   display: flex;
@@ -69,59 +69,38 @@ export enum ButtonStyle {
 }
 
 interface ButtonProps {
-  type?: "submit" | "button";
+  type?: 'submit' | 'button';
   onClick?: (event: any) => void;
   style?: ButtonStyle;
   disabled?: boolean;
   ref?: Ref;
 }
 
-type Ref =
-  | ((instance: HTMLButtonElement | null) => void)
-  | React.RefObject<HTMLButtonElement>
-  | null
-  | undefined;
+type Ref = ((instance: HTMLButtonElement | null) => void) | React.RefObject<HTMLButtonElement> | null | undefined;
 type Props = React.PropsWithChildren<ButtonProps>;
 
-const Button: React.FunctionComponent<ButtonProps> = React.forwardRef(
-  (props: Props, ref: Ref) => {
-    const { type, onClick, children, style, ...rest } = props;
-    switch (style) {
-      case ButtonStyle.Blue:
-        return (
-          <BlueButton
-            type={type || "button"}
-            onClick={onClick}
-            ref={ref}
-            {...rest}
-          >
-            <Content>{children}</Content>
-          </BlueButton>
-        );
-      case ButtonStyle.Link:
-        return (
-          <LinkButton
-            type={type || "button"}
-            onClick={onClick}
-            ref={ref}
-            {...rest}
-          >
-            <Content>{children}</Content>
-          </LinkButton>
-        );
-      default:
-        return (
-          <StyledButton
-            type={type || "button"}
-            onClick={onClick}
-            ref={ref}
-            {...rest}
-          >
-            <Content>{children}</Content>
-          </StyledButton>
-        );
-    }
+const Button: React.FunctionComponent<ButtonProps> = React.forwardRef((props: Props, ref: Ref) => {
+  const { type, onClick, children, style, ...rest } = props;
+  switch (style) {
+    case ButtonStyle.Blue:
+      return (
+        <BlueButton type={type || 'button'} onClick={onClick} ref={ref} {...rest}>
+          <Content>{children}</Content>
+        </BlueButton>
+      );
+    case ButtonStyle.Link:
+      return (
+        <LinkButton type={type || 'button'} onClick={onClick} ref={ref} {...rest}>
+          <Content>{children}</Content>
+        </LinkButton>
+      );
+    default:
+      return (
+        <StyledButton type={type || 'button'} onClick={onClick} ref={ref} {...rest}>
+          <Content>{children}</Content>
+        </StyledButton>
+      );
   }
-);
+});
 
 export default Button;
