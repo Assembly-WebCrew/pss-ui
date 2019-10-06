@@ -12,10 +12,11 @@ interface SelectProps extends SelectComponentsProps {
   options: Array<any>;
   onChange?: (value: any, actionMeta: ActionMeta) => void;
   onInputChange?: (value: any, actionMeta: InputActionMeta) => void;
+  onCreateOption?: (value: any) => void;
 }
 
 const CreatableSelect: React.FunctionComponent<SelectProps> = props => {
-  const { isMulti, name, value, options, onChange, onInputChange, innerRef, ...rest } = props;
+  const { isMulti, name, value, options, onChange, onInputChange, onCreateOption, innerRef, ...rest } = props;
   return (
     <Creatable
       styles={customSelectStyles}
@@ -25,6 +26,7 @@ const CreatableSelect: React.FunctionComponent<SelectProps> = props => {
       value={value && toSelectedOption(value)}
       onChange={onChange}
       onInputChange={onInputChange}
+      onCreateOption={onCreateOption}
       options={options.map(v => toOption(v, isMulti ? value : undefined))}
       ref={innerRef}
       {...rest}

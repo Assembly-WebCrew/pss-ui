@@ -6,8 +6,10 @@ import { get, ApiResponse } from './api';
 export const getLocations = async () => {
   try {
     const response: ApiResponse<Array<EventLocation>> = await get('/admin/location');
-    store.dispatch(actions.setLocations(response.data));
-    return true;
+    if (response.data) {
+      store.dispatch(actions.setLocations(response.data));
+    }
+    return !!response.data;
   } catch (error) {
     return false;
   }

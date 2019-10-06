@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Tags from './components/Tags';
 import EventLocation from './components/EventLocation';
 import Dropdown from './components/Dropdown';
+import { PartyEvent } from '../../../types';
 
 const Grid = styled.div`
   width: 100%;
@@ -30,6 +31,15 @@ const Grid = styled.div`
     height: 100%;
     line-height: normal;
     position: relative;
+  }
+
+  & .ag-cell-inline-editing input {
+    transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    text-overflow: ellipsis;
+  }
+  & .ag-cell-inline-editing input[type="text"]:hover {
+      border-bottom-color: rgba(0, 0, 0, 0.87);
+    }
   }
   select.ag-cell-edit-input {
     background: transparent;
@@ -56,7 +66,12 @@ class BasicGrid extends React.Component<GridProps> {
     },
     deltaRowDataMode: true,
     columnDefs: [
-      { headerName: 'Name', field: 'name', minWidth: 100 },
+      {
+        headerName: 'Name',
+        field: 'name',
+        minWidth: 100,
+        tooltipValueGetter: params => params.value
+      },
       {
         headerName: 'Location',
         field: 'location',
@@ -67,7 +82,8 @@ class BasicGrid extends React.Component<GridProps> {
         },
         suppressKeyboardEvent: params => {
           return params.editing && params.event.keyCode === 13;
-        }
+        },
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'Public',
@@ -77,40 +93,54 @@ class BasicGrid extends React.Component<GridProps> {
         cellEditor: 'dropdown',
         cellEditorParams: {
           values: [{ label: 'Yes', value: true }, { label: 'No', value: false }]
-        }
+        },
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'Prep Start Time',
         field: 'prepStartTime',
         valueFormatter: dateFormatter,
-        cellEditor: 'datePicker'
+        cellEditor: 'datePicker',
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'Start Time',
         field: 'startTime',
         valueFormatter: dateFormatter,
-        cellEditor: 'datePicker'
+        cellEditor: 'datePicker',
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'Original Start Time',
         field: 'originalStartTime',
         valueFormatter: dateFormatter,
-        cellEditor: 'datePicker'
+        cellEditor: 'datePicker',
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'End Time',
         field: 'endTime',
         valueFormatter: dateFormatter,
-        cellEditor: 'datePicker'
+        cellEditor: 'datePicker',
+        tooltipValueGetter: params => params.valueFormatted
       },
       {
         headerName: 'Post End Time',
         field: 'postEndTime',
         valueFormatter: dateFormatter,
-        cellEditor: 'datePicker'
+        cellEditor: 'datePicker',
+        tooltipValueGetter: params => params.valueFormatted
       },
-      { headerName: 'Url', field: 'url' },
-      { headerName: 'Media Url', field: 'mediaUrl' },
+      {
+        headerName: 'Url',
+        field: 'url',
+        tooltipValueGetter: params => params.value
+      },
+      {
+        headerName: 'Media Url',
+        field: 'mediaUrl',
+        tooltipValueGetter: params => params.value
+      },
       {
         field: 'tags',
         headerName: 'Tags',
@@ -121,9 +151,14 @@ class BasicGrid extends React.Component<GridProps> {
         },
         suppressKeyboardEvent: params => {
           return params.editing && params.event.keyCode === 13;
-        }
+        },
+        tooltipValueGetter: params => params.valueFormatted
       },
-      { headerName: 'Description', field: 'description' },
+      {
+        headerName: 'Description',
+        field: 'description',
+        tooltipValueGetter: params => params.value
+      },
       {
         headerName: 'Actions',
         field: 'actions',
@@ -131,8 +166,6 @@ class BasicGrid extends React.Component<GridProps> {
         cellEditor: 'actionsRenderer'
       }
     ],
-    onGridReady: (params: GridOptions) => params.api && params.api.sizeColumnsToFit(),
-    getRowNodeId: (data: any) => data.id,
     frameworkComponents: {
       actionsRenderer: Actions,
       datePicker: DatePicker,
@@ -142,10 +175,24 @@ class BasicGrid extends React.Component<GridProps> {
     }
   };
 
+  onGridReady(params: GridOptions) {
+    return params.api && params.api.sizeColumnsToFit();
+  }
+
+  getRowNodeId(data: PartyEvent) {
+    return data.id.toString();
+  }
+
   render() {
     return (
       <Grid>
-        <AgGridReact gridOptions={this.gridOptions} rowData={this.props.events} onRowValueChanged={this.props.onRowValueChange} />
+        <AgGridReact
+          gridOptions={this.gridOptions}
+          rowData={this.props.events}
+          onRowValueChanged={this.props.onRowValueChange}
+          onGridReady={this.onGridReady}
+          getRowNodeId={this.getRowNodeId}
+        />
       </Grid>
     );
   }

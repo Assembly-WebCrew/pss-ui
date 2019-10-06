@@ -11,8 +11,8 @@ import store from '../../store';
 import { addEvent, editEvent } from '../../services/EventService';
 import { getLocations } from '../../services/LocationService';
 import { getTags } from '../../services/TagService';
-import Select from '../Form/Select';
 import { connect } from 'react-redux';
+import CreatableSelect from '../Form/CreatableSelect';
 
 interface EventProps extends RouteComponentProps {
   locations: EventLocation[];
@@ -78,21 +78,28 @@ class Event extends React.Component<EventProps, EventState> {
     };
   }
 
-  onAddEvent = (event: React.FormEvent<HTMLFormElement>) => {
+  onAddEvent = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const params: { [key: string]: string } = this.props.match.params;
     const partyEvent: PartyEvent = this.parseEvent(event.target, params.party || '');
+    let success;
 
     if (this.state.event && this.state.event.id) {
-      editEvent({
+      success = await editEvent({
         ...this.state.event,
         ...partyEvent,
         id: this.state.event.id
       });
     } else {
-      addEvent(partyEvent);
+      success = await addEvent(partyEvent);
     }
+    if (success) {
+      this.goToParty();
+    }
+  };
 
+  goToParty = () => {
+    const params: { [key: string]: string } = this.props.match.params;
     this.props.history.push(`/parties/${params.party || ''}`);
   };
 
@@ -106,7 +113,7 @@ class Event extends React.Component<EventProps, EventState> {
           <Toggle name="isPublic" selected={this.state.event && this.state.event.isPublic} />
         </Field>
         <Field title="Location">
-          <Select name="location" isMulti={false} options={this.props.locations} value={this.state.event && this.state.event.location} />
+          <CreatableSelect name="location" isMulti={false} options={this.props.locations} value={this.state.event && this.state.event.location} />
         </Field>
         <Field title="Url">
           <Input type="text" name="url" placeholder="Url" defaultValue={(this.state.event && this.state.event.url) || ''} />
@@ -155,6 +162,9 @@ class Event extends React.Component<EventProps, EventState> {
         <div>
           <Button style={ButtonStyle.Blue} type="submit">
             Add event
+          </Button>
+          <Button style={ButtonStyle.Normal} type="button" onClick={this.goToParty}>
+            Cancel
           </Button>
         </div>
       </Form>

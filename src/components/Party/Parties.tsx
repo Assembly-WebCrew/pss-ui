@@ -84,15 +84,18 @@ interface PartiesProps {
 }
 interface PartiesState {
   showModal: boolean;
+  isLoading: boolean;
+  success?: boolean;
 }
 
 class Parties extends React.Component<PartiesProps, PartiesState> {
   public state: PartiesState = {
-    showModal: false
+    showModal: false,
+    isLoading: true
   };
 
   public componentDidMount() {
-    getParties();
+    getParties().then(success => this.setState({ success, isLoading: false }));
   }
 
   public render() {
@@ -103,12 +106,17 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
         </PartyListContent>
       </PartyListItem>
     ));
+    let noPartiesText = 'Loading...';
+    if (!this.state.isLoading) {
+      noPartiesText = this.state.success ? 'No parties' : 'Loading parties failed';
+    }
+
     return (
       <div>
         <Button onClick={this.onAddParty}>
           <Icon>add</Icon> Add new party
         </Button>
-        <PartyList>{items}</PartyList>
+        <PartyList>{items.length ? items : noPartiesText}</PartyList>
         <Modal
           title="Add new party"
           show={this.state.showModal}
