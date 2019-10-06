@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Redirect, RouteProps } from "react-router";
-import styled from "styled-components";
-import Button from "./Button";
-import Input from "./Form/Input";
-import { StoreState } from "../types";
-import { connect } from "react-redux";
-import { login } from "../services/SessionService";
-import { Loading } from "./Loading";
+import * as React from 'react';
+import { Redirect, RouteProps } from 'react-router';
+import styled from 'styled-components';
+import Button from './Button';
+import Input from './Form/Input';
+import { StoreState } from '../types';
+import { connect } from 'react-redux';
+import { login } from '../services/SessionService';
+import { Loading } from './Loading';
 
 interface Props extends RouteProps {
   isAuthenticated: boolean;
@@ -53,7 +53,7 @@ class Login extends React.Component<Props, State> {
   state = { error: false, loading: false };
   public render() {
     const { from } = (this.props.location && this.props.location.state) || {
-      from: { pathname: "/" }
+      from: { pathname: '/' }
     };
 
     if (this.props.isAuthenticated) {
@@ -65,28 +65,12 @@ class Login extends React.Component<Props, State> {
         <Form>
           <p>Login to Party Schedule Service</p>
           <form onSubmit={this.onSubmit}>
-            <Input
-              type="text"
-              placeholder="Username"
-              name="username"
-              required
-              disabled={this.state.loading}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              name="password"
-              required
-              disabled={this.state.loading}
-            />
-            {this.state.error && (
-              <Error>
-                An error occurred. Check your username and password.
-              </Error>
-            )}
+            <Input type="text" placeholder="Username" name="username" required disabled={this.state.loading} />
+            <Input type="password" placeholder="Password" name="password" required disabled={this.state.loading} />
+            {this.state.error && <Error>An error occurred. Check your username and password.</Error>}
             <p>
               <LoginButton type="submit" disabled={this.state.loading}>
-                {this.state.loading ? <Loading /> : "Log in"}
+                {this.state.loading ? <Loading /> : 'Log in'}
               </LoginButton>
             </p>
           </form>

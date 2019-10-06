@@ -1,12 +1,12 @@
-import * as React from "react";
-import Button, { ButtonStyle } from "../../../Button";
-import { ICellEditorParams } from "ag-grid-community";
+import * as React from 'react';
+import Button, { ButtonStyle } from '../../../Button';
+import { ICellEditorParams } from 'ag-grid-community';
 
 export class Actions extends React.Component<ICellEditorParams> {
   ref?: React.RefObject<HTMLButtonElement>;
 
   getValue() {
-    return "";
+    return '';
   }
 
   focusIn() {
@@ -17,22 +17,15 @@ export class Actions extends React.Component<ICellEditorParams> {
 
   render() {
     const { api } = this.props;
-    if (!api) return "";
+    if (!api) return '';
     if (this.props.cellStartedEdit !== undefined) {
       this.ref = React.createRef();
       return (
         <>
-          <Button
-            ref={this.ref}
-            style={ButtonStyle.Link}
-            onClick={() => api.stopEditing()}
-          >
+          <Button ref={this.ref} style={ButtonStyle.Link} onClick={() => api.stopEditing()}>
             Save
           </Button>
-          <Button
-            style={ButtonStyle.Link}
-            onClick={() => api.stopEditing(true)}
-          >
+          <Button style={ButtonStyle.Link} onClick={() => api.stopEditing(true)}>
             Cancel
           </Button>
         </>
@@ -47,7 +40,7 @@ export class Actions extends React.Component<ICellEditorParams> {
           onClick={() =>
             api.startEditingCell({
               rowIndex: this.props.rowIndex,
-              colKey: "name"
+              colKey: 'name'
             })
           }
         >

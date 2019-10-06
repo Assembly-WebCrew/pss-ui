@@ -1,14 +1,14 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { StoreState, Party } from "../../types";
-import Button, { ButtonStyle } from "../Button";
-import Modal, { ModalSize } from "../Modal";
-import Input from "../Form/Input";
-import Icon from "../Icon";
-import { getParties, addParty } from "../../services/PartyService";
-import theme from "../../theme";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { StoreState, Party } from '../../types';
+import Button, { ButtonStyle } from '../Button';
+import Modal, { ModalSize } from '../Modal';
+import Input from '../Form/Input';
+import Icon from '../Icon';
+import { getParties, addParty } from '../../services/PartyService';
+import theme from '../../theme';
 
 const PartyList = styled.ul`
   list-style: none;
@@ -39,7 +39,7 @@ const PartyListContent = styled.span`
   overflow: hidden;
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     width: 100%;
     height: 100%;
@@ -121,12 +121,7 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
         >
           <form onSubmit={this.addNewParty}>
             <CenteredContainer>
-              <Input
-                name="party"
-                placeholder="Party id, ie. summer19"
-                required
-                minLength={4}
-              />
+              <Input name="party" placeholder="Party id, ie. summer19" required minLength={4} />
               <StyledButton type="submit" style={ButtonStyle.Blue}>
                 Add
               </StyledButton>
@@ -144,7 +139,7 @@ class Parties extends React.Component<PartiesProps, PartiesState> {
   };
   private addNewParty = (event: React.FormEvent<any>) => {
     event.preventDefault();
-    const party = (event.currentTarget.elements.party.value || "").trim();
+    const party = (event.currentTarget.elements.party.value || '').trim();
     if (party) {
       addParty(party);
       this.setState({

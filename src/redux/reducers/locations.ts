@@ -1,4 +1,4 @@
-import { ActionType, EventLocation, Action } from "../../types";
+import { ActionType, EventLocation, Action } from '../../types';
 
 export default (state: EventLocation[] = [], action: Action): EventLocation[] => {
   switch (action.type) {

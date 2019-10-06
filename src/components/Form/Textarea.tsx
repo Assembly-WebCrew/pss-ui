@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import theme from "../../theme";
+import styled from 'styled-components';
+import theme from '../../theme';
 
 const Textarea = styled.textarea`
   border-radius: 34px;

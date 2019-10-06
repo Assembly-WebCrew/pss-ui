@@ -1,16 +1,14 @@
-import { Credentials } from "../types";
-import store from "../store";
-import actions from "../redux/actions";
-import { getTags } from "./TagService";
-import { getLocations } from "./LocationService";
-import { get } from "./api";
+import { Credentials } from '../types';
+import store from '../store';
+import actions from '../redux/actions';
+import { getTags } from './TagService';
+import { getLocations } from './LocationService';
+import { get } from './api';
 
 export const login = async (credentials: Credentials) => {
   try {
-    const authorization = `Basic ${btoa(
-      credentials.username + ":" + credentials.password
-    )}`;
-    await get("/admin/party", {
+    const authorization = `Basic ${btoa(credentials.username + ':' + credentials.password)}`;
+    await get('/admin/party', {
       Authorization: authorization
     });
     store.dispatch(
@@ -24,7 +22,7 @@ export const login = async (credentials: Credentials) => {
   } catch (error) {
     return false;
   }
-}
+};
 
 export const logout = () => {
   store.dispatch(
@@ -32,4 +30,4 @@ export const logout = () => {
       isAuthenticated: false
     })
   );
-}
+};

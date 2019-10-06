@@ -1,7 +1,7 @@
-import React from "react";
-import ReactSelect from "react-select";
-import { InputActionMeta, ActionMeta } from "react-select/src/types";
-import { customSelectStyles } from "./utils";
+import React from 'react';
+import ReactSelect from 'react-select';
+import { InputActionMeta, ActionMeta } from 'react-select/src/types';
+import { customSelectStyles } from './utils';
 
 interface SelectProps {
   isMulti?: boolean;

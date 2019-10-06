@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import theme from "../theme";
+import styled from 'styled-components';
+import theme from '../theme';
 
 export const Loading = styled.div`
   display: inline-block;
@@ -8,7 +8,7 @@ export const Loading = styled.div`
   height: 26px;
 
   &:after {
-    content: " ";
+    content: ' ';
     display: block;
     border-radius: 50%;
     width: 0;

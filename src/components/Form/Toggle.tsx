@@ -1,6 +1,6 @@
-import * as React from "react";
-import styled from "styled-components";
-import theme from "../../theme";
+import * as React from 'react';
+import styled from 'styled-components';
+import theme from '../../theme';
 
 const Slider = styled.span`
   position: absolute;
@@ -15,7 +15,7 @@ const Slider = styled.span`
 
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 26px;
     width: 26px;
     left: 4px;
@@ -56,11 +56,7 @@ interface ToggleProps {
 const Toggle: React.FunctionComponent<ToggleProps> = props => {
   return (
     <Switch>
-      <Checkbox
-        type="checkbox"
-        name={props.name}
-        defaultChecked={props.selected}
-      />
+      <Checkbox type="checkbox" name={props.name} defaultChecked={props.selected} />
       <Slider />
     </Switch>
   );

@@ -1,7 +1,7 @@
-import React from "react";
-import CreatableSelect from "../../../Form/CreatableSelect";
-import { ICellEditorParams } from "ag-grid-community";
-import { Tag } from "../../../../types";
+import React from 'react';
+import CreatableSelect from '../../../Form/CreatableSelect';
+import { ICellEditorParams } from 'ag-grid-community';
+import { Tag } from '../../../../types';
 
 type Value = Tag & { label?: string; value?: any };
 

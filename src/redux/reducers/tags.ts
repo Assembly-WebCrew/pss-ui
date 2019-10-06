@@ -1,4 +1,4 @@
-import { ActionType, Tag, Action } from "../../types";
+import { ActionType, Tag, Action } from '../../types';
 
 export default (state: Tag[] = [], action: Action): Tag[] => {
   switch (action.type) {

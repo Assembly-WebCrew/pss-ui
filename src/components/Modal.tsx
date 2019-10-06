@@ -1,7 +1,7 @@
-import * as React from "react";
-import styled from "styled-components";
-import Popup from "react-modal";
-import theme from "../theme";
+import * as React from 'react';
+import styled from 'styled-components';
+import Popup from 'react-modal';
+import theme from '../theme';
 
 export enum ModalSize {
   Small,
@@ -18,41 +18,41 @@ const Close = styled.i`
 const popupStyles = {
   [ModalSize.Small]: {
     overlay: {
-      background: "rgba(0, 0, 0, 0.6)",
-      zIndex: "20"
+      background: 'rgba(0, 0, 0, 0.6)',
+      zIndex: '20'
     },
     content: {
-      position: "fixed",
-      background: "white",
-      maxWidth: "100%",
-      width: "400px",
-      height: "250px",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "10px 20px",
-      borderRadius: "34px",
-      overflow: "hidden"
+      position: 'fixed',
+      background: 'white',
+      maxWidth: '100%',
+      width: '400px',
+      height: '250px',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '10px 20px',
+      borderRadius: '34px',
+      overflow: 'hidden'
     }
   },
   [ModalSize.Normal]: {
     overlay: {
-      background: "rgba(0, 0, 0, 0.6)",
-      zIndex: "20"
+      background: 'rgba(0, 0, 0, 0.6)',
+      zIndex: '20'
     },
     content: {
-      position: "fixed",
-      background: "white",
-      maxWidth: "80%",
-      minWidth: "300px",
-      minHeight: "200px",
-      height: "auto",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "10px 20px",
-      borderRadius: "34px",
-      overflow: "hidden"
+      position: 'fixed',
+      background: 'white',
+      maxWidth: '80%',
+      minWidth: '300px',
+      minHeight: '200px',
+      height: 'auto',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '10px 20px',
+      borderRadius: '34px',
+      overflow: 'hidden'
     }
   }
 };
@@ -102,21 +102,12 @@ interface ModalProps {
 
 class Modal extends React.Component<ModalProps> {
   render() {
-    const size =
-      this.props.size !== undefined ? this.props.size : ModalSize.Normal;
+    const size = this.props.size !== undefined ? this.props.size : ModalSize.Normal;
     return (
-      <Popup
-        isOpen={this.props.show}
-        onAfterOpen={this.props.afterOpenModal}
-        onRequestClose={this.props.handleClose}
-        style={popupStyles[size]}
-      >
+      <Popup isOpen={this.props.show} onAfterOpen={this.props.afterOpenModal} onRequestClose={this.props.handleClose} style={popupStyles[size]}>
         <Header>
           <h3>{this.props.title}</h3>
-          <Close
-            className="material-icons close"
-            onClick={this.props.handleClose}
-          >
+          <Close className="material-icons close" onClick={this.props.handleClose}>
             close
           </Close>
         </Header>

@@ -1,8 +1,8 @@
-import React from "react";
-import Creatable from "react-select/creatable";
-import { InputActionMeta, ActionMeta } from "react-select/src/types";
-import { toSelectedOption, toOption, customSelectStyles } from "./utils";
-import { SelectComponentsProps } from "react-select/src/Select";
+import React from 'react';
+import Creatable from 'react-select/creatable';
+import { InputActionMeta, ActionMeta } from 'react-select/src/types';
+import { toSelectedOption, toOption, customSelectStyles } from './utils';
+import { SelectComponentsProps } from 'react-select/src/Select';
 
 interface SelectProps extends SelectComponentsProps {
   isMulti: boolean;
@@ -15,16 +15,7 @@ interface SelectProps extends SelectComponentsProps {
 }
 
 const CreatableSelect: React.FunctionComponent<SelectProps> = props => {
-  const {
-    isMulti,
-    name,
-    value,
-    options,
-    onChange,
-    onInputChange,
-    innerRef,
-    ...rest
-  } = props;
+  const { isMulti, name, value, options, onChange, onInputChange, innerRef, ...rest } = props;
   return (
     <Creatable
       styles={customSelectStyles}

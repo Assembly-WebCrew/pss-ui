@@ -1,19 +1,13 @@
-import * as React from "react";
-import { AgGridReact } from "ag-grid-react";
-import { GridOptions } from "ag-grid-community";
-import { DatePicker } from "./components/DatePicker";
-import { Actions } from "./components/Actions";
-import {
-  dateFormatter,
-  tagFormatter,
-  GridProps,
-  eventLocationFormatter,
-  booleanFormatter
-} from "./utils";
-import styled from "styled-components";
-import Tags from "./components/Tags";
-import EventLocation from "./components/EventLocation";
-import Dropdown from "./components/Dropdown";
+import * as React from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { GridOptions } from 'ag-grid-community';
+import { DatePicker } from './components/DatePicker';
+import { Actions } from './components/Actions';
+import { dateFormatter, tagFormatter, GridProps, eventLocationFormatter, booleanFormatter } from './utils';
+import styled from 'styled-components';
+import Tags from './components/Tags';
+import EventLocation from './components/EventLocation';
+import Dropdown from './components/Dropdown';
 
 const Grid = styled.div`
   width: 100%;
@@ -52,7 +46,7 @@ const Grid = styled.div`
 class BasicGrid extends React.Component<GridProps> {
   gridOptions: GridOptions = {
     reactNext: true,
-    editType: "fullRow",
+    editType: 'fullRow',
     defaultColDef: {
       sortable: true,
       resizable: true,
@@ -62,12 +56,12 @@ class BasicGrid extends React.Component<GridProps> {
     },
     deltaRowDataMode: true,
     columnDefs: [
-      { headerName: "Name", field: "name", minWidth: 100 },
+      { headerName: 'Name', field: 'name', minWidth: 100 },
       {
-        headerName: "Location",
-        field: "location",
+        headerName: 'Location',
+        field: 'location',
         valueFormatter: eventLocationFormatter,
-        cellEditor: "eventLocationEditor",
+        cellEditor: 'eventLocationEditor',
         cellEditorParams: {
           values: () => this.props.locations
         },
@@ -76,52 +70,52 @@ class BasicGrid extends React.Component<GridProps> {
         }
       },
       {
-        headerName: "Public",
-        field: "isPublic",
+        headerName: 'Public',
+        field: 'isPublic',
         maxWidth: 100,
         valueFormatter: booleanFormatter,
-        cellEditor: "dropdown",
+        cellEditor: 'dropdown',
         cellEditorParams: {
-          values: [{ label: "Yes", value: true }, { label: "No", value: false }]
+          values: [{ label: 'Yes', value: true }, { label: 'No', value: false }]
         }
       },
       {
-        headerName: "Prep Start Time",
-        field: "prepStartTime",
+        headerName: 'Prep Start Time',
+        field: 'prepStartTime',
         valueFormatter: dateFormatter,
-        cellEditor: "datePicker"
+        cellEditor: 'datePicker'
       },
       {
-        headerName: "Start Time",
-        field: "startTime",
+        headerName: 'Start Time',
+        field: 'startTime',
         valueFormatter: dateFormatter,
-        cellEditor: "datePicker"
+        cellEditor: 'datePicker'
       },
       {
-        headerName: "Original Start Time",
-        field: "originalStartTime",
+        headerName: 'Original Start Time',
+        field: 'originalStartTime',
         valueFormatter: dateFormatter,
-        cellEditor: "datePicker"
+        cellEditor: 'datePicker'
       },
       {
-        headerName: "End Time",
-        field: "endTime",
+        headerName: 'End Time',
+        field: 'endTime',
         valueFormatter: dateFormatter,
-        cellEditor: "datePicker"
+        cellEditor: 'datePicker'
       },
       {
-        headerName: "Post End Time",
-        field: "postEndTime",
+        headerName: 'Post End Time',
+        field: 'postEndTime',
         valueFormatter: dateFormatter,
-        cellEditor: "datePicker"
+        cellEditor: 'datePicker'
       },
-      { headerName: "Url", field: "url" },
-      { headerName: "Media Url", field: "mediaUrl" },
+      { headerName: 'Url', field: 'url' },
+      { headerName: 'Media Url', field: 'mediaUrl' },
       {
-        field: "tags",
-        headerName: "Tags",
+        field: 'tags',
+        headerName: 'Tags',
         valueFormatter: tagFormatter,
-        cellEditor: "tagsEditor",
+        cellEditor: 'tagsEditor',
         cellEditorParams: {
           values: () => this.props.tags
         },
@@ -129,16 +123,15 @@ class BasicGrid extends React.Component<GridProps> {
           return params.editing && params.event.keyCode === 13;
         }
       },
-      { headerName: "Description", field: "description" },
+      { headerName: 'Description', field: 'description' },
       {
-        headerName: "Actions",
-        field: "actions",
-        cellRenderer: "actionsRenderer",
-        cellEditor: "actionsRenderer"
+        headerName: 'Actions',
+        field: 'actions',
+        cellRenderer: 'actionsRenderer',
+        cellEditor: 'actionsRenderer'
       }
     ],
-    onGridReady: (params: GridOptions) =>
-      params.api && params.api.sizeColumnsToFit(),
+    onGridReady: (params: GridOptions) => params.api && params.api.sizeColumnsToFit(),
     getRowNodeId: (data: any) => data.id,
     frameworkComponents: {
       actionsRenderer: Actions,
@@ -152,11 +145,7 @@ class BasicGrid extends React.Component<GridProps> {
   render() {
     return (
       <Grid>
-        <AgGridReact
-          gridOptions={this.gridOptions}
-          rowData={this.props.events}
-          onRowValueChanged={this.props.onRowValueChange}
-        />
+        <AgGridReact gridOptions={this.gridOptions} rowData={this.props.events} onRowValueChanged={this.props.onRowValueChange} />
       </Grid>
     );
   }
