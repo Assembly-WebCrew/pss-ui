@@ -1,15 +1,12 @@
 import { EventLocation } from "../types";
-import { AxiosResponse } from "axios";
 import store from "../store";
 import actions from "../redux/actions";
-import { get } from "./api";
+import { get, ApiResponse } from "./api";
 
 
 export const getLocations = async () => {
   try {
-    const response: AxiosResponse<Array<EventLocation>> = await get(
-      "/admin/location"
-    );
+    const response: ApiResponse<Array<EventLocation>> = await get("/admin/location");
     store.dispatch(actions.setLocations(response.data));
     return true;
   } catch (error) {

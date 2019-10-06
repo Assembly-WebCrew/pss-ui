@@ -1,12 +1,11 @@
 import { Party } from "../types";
-import { AxiosResponse } from "axios";
 import store from "../store";
 import actions from "../redux/actions";
-import { get } from "./api";
+import { get, ApiResponse } from "./api";
 
 export const getParties = async () => {
   try {
-    const response: AxiosResponse<Array<Party>> = await get("/admin/party");
+    const response: ApiResponse<Array<Party>> = await get("/admin/party");
     store.dispatch(actions.setParties(response.data));
     return true;
   } catch (error) {
