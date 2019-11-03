@@ -57,6 +57,7 @@ class BasicGrid extends React.Component<GridProps> {
   gridOptions: GridOptions = {
     reactNext: true,
     editType: 'fullRow',
+    enableBrowserTooltips: true,
     defaultColDef: {
       sortable: true,
       resizable: true,

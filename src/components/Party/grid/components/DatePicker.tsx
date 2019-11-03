@@ -5,8 +5,15 @@ import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 const StyledDatePicker = styled.div`
+  line-height: inherit;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
   .MuiInputBase-root {
     font-size: 1em;
+    height: 40px;
+    line-height: inherit;
   }
   &&& .ag-theme-material .ag-cell-inline-editing input[type='text'],
   .MuiInputBase-input {

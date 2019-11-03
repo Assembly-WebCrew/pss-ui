@@ -52,6 +52,10 @@ export const customSelectStyles = {
     ...provided,
     padding: '2px 0'
   }),
+  multiValue: (provided: any) => ({
+    ...provided,
+    minWidth: '50px'
+  }),
   control: (provided: any, state: any) => ({
     display: 'flex',
     alignItems: 'center',
