@@ -45,6 +45,13 @@ export type Party = string;
 
 export type PartyEvents = { [key: string]: Array<PartyEvent> | undefined };
 
+export interface ImportResult {
+  successCount: number;
+  failureCount: number;
+  errors: string[];
+  warnings: string[];
+}
+
 export interface StoreState {
   session: Session;
   events: PartyEvents;
