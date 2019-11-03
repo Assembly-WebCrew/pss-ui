@@ -1,4 +1,4 @@
-import { PartyEvent, Party } from '../types';
+import { PartyEvent, Party, ImportResult } from '../types';
 import store from '../store';
 import actions from '../redux/actions';
 import { get, post, remove, API_URL, ApiResponse } from './api';
@@ -53,7 +53,20 @@ export const deleteEvent = async (event: PartyEvent) => {
   }
 };
 
-export const importEvents = async () => {};
+export const importEvents = async (file: File, force: boolean): Promise<ImportResult> => {
+  const headers: any = {};
+  const auth = store.getState().session.authorization;
+  if (auth) headers.Authorization = auth;
+  return fetch(API_URL + '/admin/event/import?force=' + force, { method: 'POST', headers, body: file })
+    .then(resp => resp.json())
+    .then(resp => {
+      if (resp.error) {
+        throw resp.error;
+      } else {
+        return resp;
+      }
+    });
+};
 
 export const exportEvents = async (partyName: string) => {
   const headers: any = {};
