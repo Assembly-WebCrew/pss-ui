@@ -48,7 +48,7 @@
     "@types/react-router-dom": "5.1.2",
     "@types/react-select": "3.0.8",
     "@types/redux-logger": "3.0.7",
-    "@types/styled-components": "4.1.20",
+    "@types/styled-components": "4.4.3",
     "redux-logger": "3.0.6",
     "typescript": "3.6.4"
   }
