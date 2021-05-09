@@ -1,4 +1,4 @@
-FROM node:11 as build
+FROM node:16 as build
 
 RUN mkdir /src
 COPY . /src
